@@ -1,0 +1,393 @@
+.pdfUpload {
+  width: 100%;
+  animation: fadeInUp 0.3s ease;
+}
+
+/* Dropzone Styles */
+.pdfDropzone {
+  border: 2px dashed var(--border-color);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: var(--surface);
+}
+
+.pdfDropzone:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  background: rgba(99, 102, 241, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.1);
+}
+
+.pdfDropzone.dragActive {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+  transform: scale(1.02);
+  box-shadow: 0 12px 35px rgba(99, 102, 241, 0.15);
+}
+
+.pdfDropzone.dragReject {
+  border-color: var(--error-color);
+  background: rgba(239, 68, 68, 0.05);
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  50% { transform: translateX(8px); }
+  75% { transform: translateX(-8px); }
+}
+
+.pdfDropzone.hasError {
+  border-color: var(--error-color);
+}
+
+.pdfDropzone.processing,
+.pdfDropzone.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.dropzoneContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.uploadIcon {
+  font-size: 40px;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.pdfDropzone:hover .uploadIcon {
+  transform: translateY(-4px) scale(1.1);
+}
+
+.dropText {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.dropHint {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Processing State */
+.processingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 24px;
+  background: var(--surface);
+  border: 2px solid rgba(99, 102, 241, 0.3);
+  border-radius: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border-color);
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.processingText {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 500;
+  animation: pulse 1.5s infinite;
+}
+
+.progressBar {
+  width: 100%;
+  max-width: 280px;
+  height: 5px;
+  background: var(--surface-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #6366f1);
+  background-size: 200% 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  animation: shimmerProgress 1.5s infinite;
+}
+
+@keyframes shimmerProgress {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Error State */
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 2px solid var(--error-color);
+  border-radius: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+.errorIcon {
+  font-size: 32px;
+  animation: shake 0.5s ease;
+}
+
+.errorText {
+  font-size: 14px;
+  color: var(--error-color);
+  margin: 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.retryButton {
+  padding: 9px 20px;
+  background: var(--error-color);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.retryButton:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.retryButton:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* File Info State */
+.fileInfo {
+  background: var(--surface);
+  border: 2px solid var(--success-color);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.12);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fileHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fileIcon {
+  font-size: 32px;
+  flex-shrink: 0;
+  animation: bounceIn 0.5s ease;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.fileDetails {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fileName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileMeta {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.clearButton {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.clearButton:hover {
+  background: var(--error-color);
+  border-color: var(--error-color);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Extracted Preview */
+.extractedPreview {
+  background: var(--surface-secondary);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.previewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.previewLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.charCount {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.previewText {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-height: 130px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.previewText::-webkit-scrollbar {
+  width: 5px;
+}
+
+.previewText::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.toggleFullText {
+  margin-top: 10px;
+  padding: 7px 14px;
+  background: transparent;
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggleFullText:hover {
+  background: var(--surface);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #6366f1;
+}
+
+/* Success Message */
+.successMessage {
+  font-size: 13px;
+  color: var(--success-color);
+  text-align: center;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.08) 100%);
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  .pdfDropzone {
+    padding: 24px 18px;
+  }
+  
+  .uploadIcon {
+    font-size: 32px;
+  }
+  
+  .dropText {
+    font-size: 14px;
+  }
+  
+  .fileHeader {
+    flex-wrap: wrap;
+  }
+  
+  .fileDetails {
+    flex: 1 1 calc(100% - 80px);
+  }
+  
+  .previewText {
+    max-height: 100px;
+  }
+}
