@@ -38,8 +38,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       publishableKey={clerkPubKey}
       signInUrl="/sign-in"
       signUpUrl="/sign-up"
-      afterSignInUrl="/dashboard"
-      afterSignUpUrl="/dashboard"
+      fallbackRedirectUrl="/dashboard"
     >
       <RouterProvider router={router} />
     </ClerkProvider>
