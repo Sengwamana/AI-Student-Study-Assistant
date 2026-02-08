@@ -34,7 +34,13 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ClerkProvider
+      publishableKey={clerkPubKey}
+      signInUrl="/sign-in"
+      signUpUrl="/sign-up"
+      fallbackRedirectUrl="/dashboard"
+    >
+      <RouterProvider router={router} />
+    </ClerkProvider>
   </React.StrictMode>
 );
-      fallbackRedirectUrl="/dashboard"
