@@ -105,6 +105,7 @@ const StudyNotes = ({ onClose }) => {
       <div className="notesModal">
         {/* Sidebar */}
         <div className="notesSidebar">
+          
           <div className="sidebarHeader">
             <h2>📝 Study Notes</h2>
             <button className="newNoteBtn" onClick={createNewNote}>
