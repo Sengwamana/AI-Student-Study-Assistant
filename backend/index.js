@@ -182,9 +182,25 @@ const aiRateLimiter = rateLimit({
   skip: () => MOCK_AI, // Skip rate limiting in mock mode
 });
 
+// CORS configuration - allow both www and non-www domains
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'https://smartlearntoday.tech',
+  'https://www.smartlearntoday.tech',
+  'http://localhost:5173',
+  'http://localhost:5174'
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: function (origin, callback) {
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
   })
 );
