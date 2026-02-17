@@ -834,7 +834,7 @@ Remember: Output ONLY the JSON array, nothing else.`;
           {/* Question Input */}
           <div className="flex flex-col gap-2">
             <label htmlFor="question" className="font-semibold text-[13px] text-text-secondary tracking-tight">Ask a Question:</label>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="text"
                 id="question"
@@ -859,7 +859,7 @@ Remember: Output ONLY the JSON array, nothing else.`;
                 </button>
               )}
               <button
-                className="py-2.5 px-6 bg-gradient-to-br from-indigo-500 to-violet-600 text-white rounded-xl text-sm font-semibold cursor-pointer transition-all shadow-md shadow-indigo-500/20 hover:-translate-y-px hover:shadow-lg hover:shadow-indigo-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none active:translate-y-0 active:shadow-sm w-24"
+                className="py-2.5 px-6 bg-gradient-to-br from-indigo-500 to-violet-600 text-white rounded-xl text-sm font-semibold cursor-pointer transition-all shadow-md shadow-indigo-500/20 hover:-translate-y-px hover:shadow-lg hover:shadow-indigo-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none active:translate-y-0 active:shadow-sm w-full sm:w-24"
                 onClick={handleAsk}
                 disabled={isLoading || !userQuestion.trim()}
                 aria-label={isLoading ? "Generating answer..." : "Ask your question"}
@@ -880,7 +880,7 @@ Remember: Output ONLY the JSON array, nothing else.`;
           <div className="flex items-center justify-between gap-3">
             <label className="font-semibold text-[13px] text-text-secondary tracking-tight">AI Response:</label>
             {aiResponse && (
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <button 
                   className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border rounded-lg cursor-pointer transition-all disabled:opacity-50 ${copied ? 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800 text-emerald-600' : 'bg-surface border-gray-200 dark:border-gray-800 text-text-secondary hover:bg-indigo-50 dark:hover:bg-indigo-900/10 hover:border-indigo-200 dark:hover:border-indigo-800 hover:text-indigo-600'}`}
                   onClick={handleCopy}
@@ -913,7 +913,7 @@ Remember: Output ONLY the JSON array, nothing else.`;
               </div>
             )}
           </div>
-          <div className="min-h-[300px] max-h-[520px] overflow-y-auto p-6 bg-surface rounded-[18px] border border-gray-200 dark:border-gray-800 shadow-inner transition-colors duration-300 scrollbar-thin scrollbar-thumb-indigo-200 dark:scrollbar-thumb-indigo-900 scrollbar-track-transparent">
+          <div className="min-h-[200px] sm:min-h-[300px] max-h-[400px] sm:max-h-[520px] overflow-y-auto p-4 sm:p-6 bg-surface rounded-[18px] border border-gray-200 dark:border-gray-800 shadow-inner transition-colors duration-300 scrollbar-thin scrollbar-thumb-indigo-200 dark:scrollbar-thumb-indigo-900 scrollbar-track-transparent">
             {isLoading ? (
               <div className="flex flex-col items-center justify-center h-[220px] gap-4.5 text-text-muted text-sm animate-fade-in" role="status">
                 <span className="w-9 h-9 border-[3px] border-indigo-500/15 border-t-indigo-500 rounded-full animate-spin" aria-hidden="true"></span>

@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="relative mt-20 border-t border-white/20 bg-white/40 backdrop-blur-md">
-      <div className="max-w-[1400px] mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
+    <footer className="relative mt-10 sm:mt-20 border-t border-white/20 bg-white/40 backdrop-blur-md">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-8 sm:py-12 flex flex-col md:flex-row justify-between items-center gap-4 sm:gap-6">
         
         {/* Logo Section */}
         <div className="flex items-center gap-2">
@@ -14,7 +14,7 @@ const Footer = () => {
         </div>
 
         {/* Links */}
-        <div className="flex flex-wrap justify-center gap-8 text-sm font-medium text-text-secondary">
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm font-medium text-text-secondary">
           <Link to="/product" className="hover:text-indigo-600 transition-colors">Product</Link>
           <Link to="/solutions" className="hover:text-indigo-600 transition-colors">Solutions</Link>
           <Link to="/pricing" className="hover:text-indigo-600 transition-colors">Pricing</Link>

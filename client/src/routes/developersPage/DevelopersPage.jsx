@@ -1,28 +1,28 @@
 
 const DevelopersPage = () => {
   return (
-    <main className="flex-1 flex flex-col items-center justify-center p-10 text-center animate-fade-in-up">
-      <h1 className="text-5xl font-serif font-medium mb-4">Developers</h1>
+    <main className="flex-1 flex flex-col items-center justify-center p-4 sm:p-10 text-center animate-fade-in-up">
+      <h1 className="text-3xl sm:text-5xl font-serif font-medium mb-4">Developers</h1>
       <p className="text-xl text-text-secondary max-w-2xl">
         Integrate Smart Learn Today's powerful AI capabilities into your own applications.
       </p>
       
-      <div className="flex flex-col gap-24 mt-16 max-w-7xl w-full text-left">
+      <div className="flex flex-col gap-12 sm:gap-24 mt-10 sm:mt-16 max-w-7xl w-full text-left">
          
          {/* API Introduction */}
-         <div className="flex flex-col md:flex-row gap-12 items-center">
+         <div className="flex flex-col md:flex-row gap-6 sm:gap-12 items-center">
             <div className="flex-1">
-               <h2 className="text-3xl font-bold mb-4 text-text-primary">Build with our API</h2>
+               <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-text-primary">Build with our API</h2>
                <p className="text-lg text-text-secondary mb-6 leading-relaxed">
                   Access the same state-of-the-art study AI that powers our platform. 
                   Create custom educational tools, tutoring bots, or content generators with just a few lines of code.
                </p>
-               <div className="flex gap-4">
+               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <button className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 transition-colors">Get API Keys</button>
                   <button className="px-6 py-3 border border-gray-300 rounded-xl font-semibold hover:bg-white transition-colors">Read Docs</button>
                </div>
             </div>
-            <div className="flex-1 bg-[#1e1e1e] p-6 rounded-3xl shadow-xl overflow-hidden font-mono text-sm">
+            <div className="flex-1 bg-[#1e1e1e] p-4 sm:p-6 rounded-2xl sm:rounded-3xl shadow-xl overflow-x-auto font-mono text-xs sm:text-sm">
                <div className="flex gap-2 mb-4">
                   <div className="w-3 h-3 rounded-full bg-red-500"></div>
                   <div className="w-3 h-3 rounded-full bg-yellow-500"></div>

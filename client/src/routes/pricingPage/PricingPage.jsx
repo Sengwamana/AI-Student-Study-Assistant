@@ -1,13 +1,13 @@
 
 const PricingPage = () => {
   return (
-    <main className="flex-1 flex flex-col items-center justify-center p-10 text-center animate-fade-in-up">
-      <h1 className="text-5xl font-serif font-medium mb-4">Pricing</h1>
+    <main className="flex-1 flex flex-col items-center justify-center p-4 sm:p-10 text-center animate-fade-in-up">
+      <h1 className="text-3xl sm:text-5xl font-serif font-medium mb-4">Pricing</h1>
       <p className="text-xl text-text-secondary max-w-2xl">
         Simple, transparent pricing. Start for free, upgrade for more.
       </p>
       
-      <div className="flex flex-col gap-24 mt-16 max-w-7xl w-full">
+      <div className="flex flex-col gap-12 sm:gap-24 mt-10 sm:mt-16 max-w-7xl w-full">
          
          {/* Pricing Cards */}
          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
@@ -58,8 +58,8 @@ const PricingPage = () => {
           </div>
 
           {/* Compare Plans Table */}
-          <div className="text-left">
-             <h2 className="text-3xl font-bold mb-8 text-center">Compare Plans</h2>
+          <div className="text-left px-2 sm:px-0">
+             <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Compare Plans</h2>
              <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                    <thead>
@@ -102,7 +102,7 @@ const PricingPage = () => {
 
           {/* FAQ Section */}
           <div className="max-w-3xl mx-auto w-full text-left">
-             <h2 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+             <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center">Frequently Asked Questions</h2>
              <div className="space-y-6">
                 <div className="bg-surface-secondary p-6 rounded-2xl">
                    <h4 className="font-bold mb-2">Can I switch plans later?</h4>

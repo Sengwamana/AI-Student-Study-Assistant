@@ -116,3 +116,37 @@ html, body, #root {
 .cl-internal-b3fm6y {
   max-width: 100% !important;
 }
+
+/* Mobile-specific Clerk overrides for auth pages */
+@media (max-width: 640px) {
+  .cl-formFieldInput {
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+  }
+
+  .cl-formButtonPrimary {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+  }
+
+  .cl-socialButtonsBlockButton {
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+  }
+
+  .cl-formFieldLabel {
+    font-size: 13px !important;
+  }
+
+  .cl-footerAction {
+    font-size: 13px !important;
+  }
+
+  .cl-dividerLine {
+    margin: 12px 0 !important;
+  }
+
+  .cl-dividerText {
+    font-size: 12px !important;
+  }
+}
