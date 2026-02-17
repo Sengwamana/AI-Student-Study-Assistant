@@ -429,9 +429,9 @@ const ChatList = () => {
       <div className="h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-700 to-transparent my-4"></div>
       
       <div className="mt-auto flex items-center gap-3 p-4 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 rounded-2xl border border-indigo-500/10 cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/5 hover:border-indigo-500/20 group">
-        <span className="text-2xl transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6" aria-hidden="true">🎓</span>
+        <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain transition-transform duration-300 group-hover:scale-110" />
         <div className="flex flex-col gap-0.5">
-          <span className="font-bold text-sm text-text-primary group-hover:text-indigo-600 transition-colors">Study Smarter</span>
+          <span className="font-bold text-sm text-text-primary group-hover:text-indigo-600 transition-colors">Smart Learn Today</span>
           <span className="text-[10px] text-gray-400">AI-powered learning</span>
         </div>
       </div>

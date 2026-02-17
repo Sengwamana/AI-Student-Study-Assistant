@@ -9,8 +9,13 @@ import DashboardPage from "./routes/dashboardPage/DashboardPage";
 import ChatPage from "./routes/chatPage/ChatPage";
 import RootLayout from "./layouts/rootLayout/RootLayout";
 import DashboardLayout from "./layouts/dashboardLayout/DashboardLayout";
+import PublicLayout from "./layouts/publicLayout/PublicLayout";
 import SignInPage from "./routes/signInPage/signInPage";
 import SignUpPage from "./routes/signUpPage/signUpPage";
+import ProductPage from "./routes/productPage/ProductPage";
+import SolutionsPage from "./routes/solutionsPage/SolutionsPage";
+import PricingPage from "./routes/pricingPage/PricingPage";
+import DevelopersPage from "./routes/developersPage/DevelopersPage";
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -18,7 +23,16 @@ const router = createBrowserRouter([
   {
     element: <RootLayout />,
     children: [
-      { path: "/", element: <Homepage /> },
+      {
+        element: <PublicLayout />,
+        children: [
+          { path: "/", element: <Homepage /> },
+          { path: "/product", element: <ProductPage /> },
+          { path: "/solutions", element: <SolutionsPage /> },
+          { path: "/pricing", element: <PricingPage /> },
+          { path: "/developers", element: <DevelopersPage /> },
+        ],
+      },
       { path: "/sign-in/*", element: <SignInPage /> },
       { path: "/sign-up/*", element: <SignUpPage /> },
       {

@@ -16,8 +16,8 @@ export default {
           hover: '#e66000',
         },
         background: {
-          DEFAULT: '#F3F4F6', // Light Grey
-          paper: '#FFFFFF',
+          DEFAULT: '#FFFFFF', // Pure White
+          paper: '#F3F4F6', // Light Grey for contrast
         },
         surface: {
           DEFAULT: '#FFFFFF',
@@ -42,7 +42,6 @@ export default {
         'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
         'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
       },
-
       backgroundImage: {
         'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%)',
       },
@@ -86,6 +85,12 @@ export default {
         'slide-down': {
           'from': { opacity: '0', transform: 'translateY(-20px) translateX(-50%)' },
           'to': { opacity: '1', transform: 'translateY(0) translateX(-50%)' },
+        },
+        'float-orb': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '25%': { transform: 'translate(20px, -20px) scale(1.05)' },
+          '50%': { transform: 'translate(-10px, 20px) scale(0.95)' },
+          '75%': { transform: 'translate(-20px, -10px) scale(1.02)' },
         }
       },
       animation: {
@@ -99,6 +104,8 @@ export default {
         'title-reveal': 'title-reveal 0.8s ease-out both',
         'slide-up': 'slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) both',
         'slide-down': 'slide-down 0.5s cubic-bezier(0.4, 0, 0.2, 1) both',
+        'float-orb': 'float-orb 8s ease-in-out infinite',
+        'float-orb-reverse': 'float-orb 10s ease-in-out infinite reverse',
       }
     },
   },

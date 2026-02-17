@@ -103,7 +103,7 @@ const StudyGoals = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-[1000] animate-fade-in p-4" onClick={onClose}>
-      <div className="bg-surface rounded-3xl w-full max-w-[500px] max-h-[85vh] overflow-y-auto shadow-2xl border border-white/10 dark:border-white/5 animate-slide-up" onClick={e => e.stopPropagation()}>
+      <div className="bg-surface rounded-3xl w-full max-w-[500px] max-h-[85vh] overflow-y-auto shadow-2xl border border-gray-200 dark:border-gray-800 animate-slide-up" onClick={e => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800">
           <h2 className="text-2xl font-bold bg-gradient-to-br from-indigo-500 to-violet-500 bg-clip-text text-transparent m-0">🎯 Study Goals</h2>

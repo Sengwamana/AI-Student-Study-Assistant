@@ -2,6 +2,18 @@
 @config "../tailwind.config.js";
 
 @layer base {
+  :root {
+    --surface: #ffffff;
+    --surface-secondary: #f9fafb;
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --border-color: #e5e7eb;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --accent-color: #6366f1;
+    --error-color: #ef4444;
+  }
+
   body {
     @apply bg-background text-text-primary antialiased;
     font-family: 'Plus Jakarta Sans', sans-serif;

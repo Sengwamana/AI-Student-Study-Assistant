@@ -1,5 +1,5 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "@clerk/clerk-react";
+import { Outlet, useNavigate, Link } from "react-router-dom";
+import { useAuth, SignedIn, UserButton } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import ChatList from "../../components/chatList/ChatList";
 import StudyTimer from "../../components/studyTimer/StudyTimer";
@@ -8,6 +8,7 @@ import StudyGoals from "../../components/studyGoals/StudyGoals";
 import StudyNotes from "../../components/studyNotes/StudyNotes";
 import Bookmarks from "../../components/bookmarks/Bookmarks";
 import QuizGenerator from "../../components/quizGenerator/QuizGenerator";
+import ThemeToggle from "../../components/themeToggle/ThemeToggle";
 
 // Motivational messages based on streak
 const getMotivationalMessage = (streak) => {
@@ -150,10 +151,28 @@ const DashboardLayout = () => {
   }
 
   return (
-    <div className="flex h-full bg-surface gap-0 lg:gap-4">
-      <div className="hidden lg:block flex-1 min-w-[240px] max-w-[280px] animate-fade-in-left overflow-visible"><ChatList/></div>
-      <div className="flex-[4] bg-surface overflow-hidden animate-fade-in-right transition-all duration-300">
-        <Outlet />
+    <div className="flex flex-col h-full bg-surface gap-0 lg:gap-4 p-5 md:px-14 md:py-5">
+      <header className="flex items-center justify-between pb-5 animate-fade-in-down shrink-0">
+        <Link to="/dashboard" className="flex items-center gap-3 group">
+          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain transition-transform duration-300 group-hover:scale-110" />
+          <div className="flex flex-col gap-0.5">
+            <span className="font-bold text-lg text-text-primary tracking-tight">Smart Learn Today</span>
+            <span className="text-xs text-text-muted font-medium tracking-wide">Your Personal Learning Helper</span>
+          </div>
+        </Link>
+        <div className="flex items-center gap-3.5">
+          <ThemeToggle />
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        </div>
+      </header>
+      
+      <div className="flex flex-1 overflow-hidden gap-4">
+        <div className="hidden lg:block flex-1 min-w-[240px] max-w-[280px] animate-fade-in-left overflow-visible"><ChatList/></div>
+        <div className="flex-[4] bg-surface overflow-hidden animate-fade-in-right transition-all duration-300 rounded-2xl">
+          <Outlet />
+        </div>
       </div>
 
       {/* Study Streak Banner */}
