@@ -3,109 +3,118 @@ import { Link } from "react-router-dom";
 const Homepage = () => {
   return (
     <>
-      <main className="flex-1 flex flex-col lg:flex-row items-center justify-center max-w-[1400px] mx-auto w-full px-6 py-10 lg:py-0 overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative min-h-[90vh] flex flex-col items-center justify-center px-6 pt-16 pb-20 overflow-hidden">
         
-        {/* Left Content */}
-        <div className="flex-1 flex flex-col gap-8 z-10 lg:pr-10 animate-fade-in-left">
-          <div className="flex items-center gap-3">
-             <div className="w-12 h-12 flex items-center justify-center">
-               <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
-             </div>
-             <div>
-               <p className="font-bold text-lg leading-tight">20M+ Students</p>
-               <Link to="/" className="text-sm underline font-medium text-gray-600 hover:text-black">Read Our Success Stories</Link>
-             </div>
+        {/* Background Gradient Blobs */}
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full bg-indigo-200/40 blur-[100px] animate-float-orb"></div>
+          <div className="absolute bottom-[-15%] right-[-5%] w-[600px] h-[600px] rounded-full bg-orange-200/30 blur-[120px] animate-float-orb-reverse"></div>
+          <div className="absolute top-[30%] right-[20%] w-[300px] h-[300px] rounded-full bg-purple-200/20 blur-[80px] animate-float-orb"></div>
+        </div>
+
+        {/* Trust Badge */}
+        <div className="animate-fade-in-up mb-8">
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/70 backdrop-blur-md rounded-full border border-gray-200/60 shadow-soft">
+            <div className="flex -space-x-2">
+              <img src="/human1.jpeg" alt="User" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
+              <img src="/human2.jpeg" alt="User" className="w-7 h-7 rounded-full border-2 border-white object-cover" />
+              <div className="w-7 h-7 rounded-full border-2 border-white bg-indigo-500 flex items-center justify-center text-white text-[10px] font-bold">+20M</div>
+            </div>
+            <div className="h-4 w-px bg-gray-300"></div>
+            <span className="text-sm font-semibold text-text-primary">Trusted by 20M+ students worldwide</span>
+            <span className="text-sm font-bold text-amber-500">★ 4.9</span>
           </div>
-          
-          <h2 className="text-text-primary text-xl font-semibold tracking-tight animate-fade-in-up md:text-lg [animation-delay:0.35s]">
-            Smart Learn Today
-          </h2>
-          <h1 className="text-[6rem] leading-[0.9] font-serif font-medium tracking-tighter text-text-primary">
-            Smart Learn<sup className="text-4xl align-super">+</sup>
+        </div>
+
+        {/* Main Headline */}
+        <div className="text-center max-w-4xl mx-auto animate-title-reveal">
+          <h1 className="text-6xl md:text-8xl font-serif font-bold tracking-tight leading-[0.95] text-text-primary mb-6">
+            Learn Smarter
+            <br />
+            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-orange-500 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient-x">
+              with AI
+            </span>
           </h1>
+          <p className="text-xl md:text-2xl text-text-secondary max-w-2xl mx-auto leading-relaxed font-normal animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+            Your personal AI study assistant that helps you understand concepts, 
+            ace exams, and learn up to <strong className="text-text-primary">50× faster</strong>.
+          </p>
+        </div>
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 mt-10 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+          <Link to="/sign-up" className="group relative px-8 py-4 bg-gray-900 text-white rounded-full font-semibold text-lg hover:bg-gray-800 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-0.5">
+            Get Started — It's Free
+            <span className="absolute inset-0 rounded-full border border-white/20"></span>
+          </Link>
+          <Link to="/product" className="px-8 py-4 bg-white/60 backdrop-blur-sm text-text-primary rounded-full font-semibold text-lg border border-gray-200 hover:bg-white hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5">
+            See How It Works
+          </Link>
+        </div>
+
+        {/* Hero Visual Composition */}
+        <div className="relative mt-16 w-full max-w-5xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
           
-          <div className="h-[1px] w-2/3 bg-gray-200"></div>
-          
-          <h2 className="text-2xl text-text-secondary max-w-[500px] font-normal leading-relaxed">
-            Harness AI-Powered Learning Tools — Up To 50× Faster.
-          </h2>
-          
-          <div className="flex items-center gap-4 mt-2">
-             <div className="relative">
-                <img src="/human1.jpeg" alt="User review" className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" />
-                <div className="absolute -top-1 -right-1">
-                   <span className="flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
-                  </span>
+          {/* Main Image Container */}
+          <div className="relative rounded-[2rem] overflow-hidden shadow-2xl border border-white/40 aspect-[16/9]">
+            <img src="/feature_ai_tutor.jpg" alt="Smart Learn Today Platform" className="w-full h-full object-cover" />
+            {/* Overlay Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+            
+            {/* Bottom Bar - Inside Image */}
+            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
+              <div className="flex items-center gap-3 bg-white/90 backdrop-blur-md px-5 py-3 rounded-2xl shadow-lg">
+                <div className="w-10 h-10 rounded-xl overflow-hidden">
+                  <img src="/bot.png" alt="AI Bot" className="w-full h-full object-cover" />
                 </div>
-             </div>
-             <div>
-                <p className="text-sm font-medium">Loved the performance <span className="mx-2 text-gray-300">/</span> <span className="font-bold">★ 4.9</span></p>
-                <p className="text-xs text-text-muted">100% Satisfied</p>
-             </div>
+                <div>
+                  <p className="text-sm font-bold text-gray-900">AI Tutor is ready</p>
+                  <p className="text-xs text-gray-500">Ask me anything about your studies</p>
+                </div>
+              </div>
+              <div className="hidden sm:flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-3 rounded-2xl shadow-lg">
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-sm font-semibold text-gray-700">Online now</span>
+              </div>
+            </div>
           </div>
-          
-          <div className="flex items-center gap-6 mt-4">
-            <Link to="/sign-up" className="bg-black text-white px-8 py-3.5 rounded-full font-medium hover:bg-gray-800 transition-colors shadow-lg">
-              Download — It's Free
-            </Link>
-            <Link to="/pricing" className="text-sm font-semibold underline decoration-2 underline-offset-4 hover:text-indigo-600 transition-colors flex items-center gap-1">
-              Our Pricing 
-              <span className="text-lg">↗</span>
-            </Link>
+
+          {/* Floating Card - Stats (Top Left) */}
+          <div className="absolute -top-6 -left-6 md:-left-12 bg-white/80 backdrop-blur-xl border border-white/50 p-5 rounded-3xl shadow-glass animate-bounce-slow z-10">
+            <p className="text-xs text-gray-500 font-semibold mb-1 uppercase tracking-wider">Grades Improved</p>
+            <p className="text-4xl font-bold text-indigo-600">+60%</p>
+            <p className="text-xs text-gray-400 mt-1">This semester</p>
           </div>
-        </div>
 
-        {/* Right Content - Visual */}
-        <div className="flex-1 relative h-[600px] w-full flex items-center justify-center mt-10 lg:mt-0 animate-fade-in-right">
-           {/* Orange Background Shape */}
-           <div className="absolute top-10 right-10 w-[80%] h-[90%] bg-[#FF6B00] rounded-[3rem] -z-10 transform rotate-[-2deg]"></div>
-           
-           {/* Student Image */}
-           <div className="relative z-10 h-[550px] overflow-visible">
-              <img src="/human1.jpeg" alt="Student using app" className="h-full object-cover rounded-2xl relative z-10 mask-image-gradient" style={{ maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)' }} />
-              
-              {/* Floating Element 1 - Quiz */}
-              <div className="absolute top-[20%] -left-[20%] bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/40 animate-bounce-slow flex items-center gap-3">
-                 <div className="w-6 h-6 bg-orange-500 rounded text-white flex items-center justify-center text-xs">✓</div>
-                 <span className="text-sm font-medium text-gray-800">How is the quiz?</span>
+          {/* Floating Card - Quiz Score (Top Right) */}
+          <div className="absolute -top-4 -right-4 md:-right-10 bg-white/80 backdrop-blur-xl border border-white/50 p-4 rounded-2xl shadow-glass animate-bounce-slower z-10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
+                <span className="text-green-600 font-bold text-lg">A+</span>
               </div>
-              
-              {/* Floating Element 2 - Design */}
-              <div className="absolute top-[35%] -left-[30%] bg-white/90 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/40 animate-bounce-slower flex items-center gap-3">
-                 <div className="w-6 h-6 bg-blue-500 rounded text-white flex items-center justify-center text-xs">✓</div>
-                 <span className="text-sm font-medium text-gray-800">Do you understand?</span>
+              <div>
+                <p className="text-sm font-bold text-gray-900">Quiz Complete!</p>
+                <p className="text-xs text-gray-400">98% accuracy</p>
               </div>
-              
-              {/* Floating Element 3 - Play Button */}
-              <div className="absolute top-[45%] left-[20%] w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl cursor-pointer hover:scale-110 transition-transform">
-                 <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-black border-b-[10px] border-b-transparent ml-1"></div>
-              </div>
-              
-              {/* Floating Card - Stats (Top Right) */}
-              <div className="absolute top-[10%] -right-[10%] bg-white/40 backdrop-blur-xl border border-white/30 p-5 rounded-3xl w-48 shadow-glass">
-                 <p className="text-xs text-black/60 font-semibold mb-1">— UP TO</p>
-                 <p className="text-4xl font-bold text-black mb-1">60%</p>
-                 <p className="text-xs text-black/70 leading-tight">More grades this week</p>
-              </div>
+            </div>
+          </div>
 
-               {/* Floating Card - Product (Bottom Right) */}
-              <div className="absolute bottom-[10%] -right-[15%] bg-white/60 backdrop-blur-xl border border-white/40 p-4 rounded-3xl w-56 shadow-glass flex items-center gap-4">
-                 <div className="w-16 h-16 bg-gray-200 rounded-xl overflow-hidden shrink-0">
-                    <img src="/bot.png" alt="Bot" className="w-full h-full object-cover" />
-                 </div>
-                 <div>
-                    <p className="font-semibold text-sm">AI Tutor Bot</p>
-                    <p className="text-sm text-gray-500">Premium</p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs font-bold bg-black text-white px-1.5 py-0.5 rounded">★ 4.6</span>
-                    </div>
-                 </div>
+          {/* Floating Card - Study Streak (Bottom Left) */}
+          <div className="hidden md:block absolute -bottom-6 left-[15%] bg-white/80 backdrop-blur-xl border border-white/50 p-4 rounded-2xl shadow-glass animate-bounce-slower z-10">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                <span className="text-orange-500 text-xl">🔥</span>
               </div>
-           </div>
+              <div>
+                <p className="text-sm font-bold text-gray-900">12 Day Streak!</p>
+                <p className="text-xs text-gray-400">Keep it going</p>
+              </div>
+            </div>
+          </div>
+
         </div>
-      </main>
+      </section>
 
       {/* Features Grid */}
       <section className="py-20 px-6 max-w-[1400px] mx-auto w-full animate-fade-in-up">
