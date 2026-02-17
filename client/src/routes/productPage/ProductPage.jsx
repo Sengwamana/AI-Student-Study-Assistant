@@ -33,9 +33,8 @@ const ProductPage = () => {
                   </li>
                </ul>
             </div>
-            <div className="flex-1 h-[400px] w-full bg-surface-secondary rounded-3xl overflow-hidden border border-gray-200 shadow-xl shadow-gray-200/50 flex items-center justify-center relative">
-               {/* <img src="/feature_ai_tutor.png" alt="AI Tutor Interface" className="w-full h-full object-cover" /> */}
-               <span className="text-text-muted italic">AI Tutor Visualization</span>
+            <div className="flex-1 h-[400px] w-full rounded-3xl overflow-hidden border border-gray-200 shadow-xl shadow-gray-200/50">
+               <img src="/product_ai_tutor.jpg" alt="AI Tutor Interface" className="w-full h-full object-cover" />
             </div>
          </div>
 
@@ -63,9 +62,8 @@ const ProductPage = () => {
                   </li>
                </ul>
             </div>
-            <div className="flex-1 h-[400px] w-full bg-surface-secondary rounded-3xl overflow-hidden border border-gray-200 shadow-xl shadow-gray-200/50 flex items-center justify-center relative">
-               {/* <img src="/feature_study_plans.png" alt="Study Plan Interface" className="w-full h-full object-cover" /> */}
-               <span className="text-text-muted italic">Study Plan Visualization</span>
+            <div className="flex-1 h-[400px] w-full rounded-3xl overflow-hidden border border-gray-200 shadow-xl shadow-gray-200/50">
+               <img src="/product_study_plans.jpg" alt="Study Plan Interface" className="w-full h-full object-cover" />
             </div>
          </div>
 
@@ -93,9 +91,8 @@ const ProductPage = () => {
                   </li>
                </ul>
             </div>
-            <div className="flex-1 h-[400px] w-full bg-surface-secondary rounded-3xl overflow-hidden border border-gray-200 shadow-xl shadow-gray-200/50 flex items-center justify-center relative">
-               {/* <img src="/feature_smart_quizzes.png" alt="Quiz Interface" className="w-full h-full object-cover" /> */}
-               <span className="text-text-muted italic">Smart Quiz Visualization</span>
+            <div className="flex-1 h-[400px] w-full rounded-3xl overflow-hidden border border-gray-200 shadow-xl shadow-gray-200/50">
+               <img src="/product_quizzes.jpg" alt="Quiz Interface" className="w-full h-full object-cover" />
             </div>
          </div>
       </div>

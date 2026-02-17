@@ -42,17 +42,23 @@ const DevelopersPage = () => {
          {/* Use Cases */}
          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-8 rounded-3xl bg-surface-secondary border border-gray-100">
-               <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl mb-6">📱</div>
+               <div className="w-full h-40 rounded-xl overflow-hidden mb-6">
+                  <img src="/dev_edtech.jpg" alt="EdTech Apps" className="w-full h-full object-cover" />
+               </div>
                <h3 className="text-xl font-bold mb-3">EdTech Apps</h3>
                <p className="text-text-secondary">Enhance your existing education app with AI-powered explanations and quizzes.</p>
             </div>
             <div className="p-8 rounded-3xl bg-surface-secondary border border-gray-100">
-               <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-2xl mb-6">🏫</div>
+               <div className="w-full h-40 rounded-xl overflow-hidden mb-6">
+                  <img src="/dev_lms.jpg" alt="LMS Integration" className="w-full h-full object-cover" />
+               </div>
                <h3 className="text-xl font-bold mb-3">LMS Integration</h3>
                <p className="text-text-secondary">Seamlessly integrate smart study tools directly into your Learning Management System.</p>
             </div>
             <div className="p-8 rounded-3xl bg-surface-secondary border border-gray-100">
-               <div className="w-12 h-12 bg-pink-100 text-pink-600 rounded-xl flex items-center justify-center text-2xl mb-6">🤖</div>
+               <div className="w-full h-40 rounded-xl overflow-hidden mb-6">
+                  <img src="/dev_tutoring.jpg" alt="Tutoring Bots" className="w-full h-full object-cover" />
+               </div>
                <h3 className="text-xl font-bold mb-3">Tutoring Bots</h3>
                <p className="text-text-secondary">Build specialized tutoring bots for specific subjects like Math, Coding, or History.</p>
             </div>

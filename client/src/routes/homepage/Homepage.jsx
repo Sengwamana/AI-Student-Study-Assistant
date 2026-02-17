@@ -112,25 +112,22 @@ const Homepage = () => {
         <h2 className="text-4xl font-serif font-medium mb-16 text-center">Why Smart Learn Today?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
            <div className="bg-surface-secondary p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center">
-              <div className="h-48 w-full bg-indigo-50 rounded-2xl mb-6 flex items-center justify-center">
-                 {/* <img src="/feature_ai_tutor.png" alt="AI Tutor" className="h-full object-contain" /> */}
-                 <span className="text-4xl">🤖</span>
+              <div className="h-48 w-full rounded-2xl mb-6 overflow-hidden">
+                 <img src="/feature_ai_tutor.jpg" alt="AI Tutor" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold mb-3">Personal AI Tutor</h3>
               <p className="text-text-secondary">Get help with any subject, anytime. Detailed explanations and step-by-step guidance.</p>
            </div>
            <div className="bg-surface-secondary p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center">
-              <div className="h-48 w-full bg-orange-50 rounded-2xl mb-6 flex items-center justify-center">
-                 {/* <img src="/feature_study_plans.png" alt="Study Plans" className="h-full object-contain" /> */}
-                 <span className="text-4xl">📅</span>
+              <div className="h-48 w-full rounded-2xl mb-6 overflow-hidden">
+                 <img src="/feature_study_plans.jpg" alt="Study Plans" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold mb-3">Smart Study Plans</h3>
               <p className="text-text-secondary">Stay organized with adaptive schedules that update based on your progress and deadlines.</p>
            </div>
            <div className="bg-surface-secondary p-8 rounded-3xl border border-gray-100 flex flex-col items-center text-center">
-              <div className="h-48 w-full bg-green-50 rounded-2xl mb-6 flex items-center justify-center">
-                 {/* <img src="/feature_smart_quizzes.png" alt="Quizzes" className="h-full object-contain" /> */}
-                 <span className="text-4xl">📝</span>
+              <div className="h-48 w-full rounded-2xl mb-6 overflow-hidden">
+                 <img src="/feature_quizzes.jpg" alt="Quizzes" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-bold mb-3">Instant Quizzes</h3>
               <p className="text-text-secondary">Turn your notes into quizzes instantly. Master topics faster with active recall.</p>
@@ -179,8 +176,8 @@ const Homepage = () => {
                Join millions of students who are already learning smarter, not harder.
              </p>
           </div>
-          <div className="flex-1 relative h-[400px] w-full bg-surface-secondary rounded-3xl overflow-hidden border border-gray-100 flex items-center justify-center">
-             <span className="text-9xl">🎓</span>
+          <div className="flex-1 relative h-[400px] w-full rounded-3xl overflow-hidden border border-gray-100">
+             <img src="/about_learning.jpg" alt="Students learning together" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>

@@ -48,9 +48,8 @@ const SolutionsPage = () => {
                   </div>
                </div>
             </div>
-            <div className="flex-1 h-80 bg-indigo-50 rounded-3xl flex items-center justify-center text-indigo-200">
-                {/* <img src="/solutions_students.png" alt="Students using app" className="w-full h-full object-cover rounded-3xl" /> */}
-                <span className="text-3xl font-bold">Students</span>
+            <div className="flex-1 h-80 rounded-3xl overflow-hidden">
+                <img src="/solutions_students.jpg" alt="Students collaborating" className="w-full h-full object-cover" />
             </div>
          </div>
          
@@ -77,9 +76,8 @@ const SolutionsPage = () => {
                   </li>
                </ul>
             </div>
-            <div className="flex-1 h-80 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20 flex items-center justify-center text-white/30">
-                {/* <img src="/solutions_educators.png" alt="Educator dashboard" className="w-full h-full object-cover rounded-3xl" /> */}
-                <span className="text-3xl font-bold">Educators</span>
+            <div className="flex-1 h-80 rounded-3xl overflow-hidden border border-white/20">
+                <img src="/solutions_educators.jpg" alt="Educator in classroom" className="w-full h-full object-cover" />
             </div>
          </div>
 
@@ -96,14 +94,8 @@ const SolutionsPage = () => {
                   <button className="px-6 py-3 border border-gray-300 rounded-xl font-semibold hover:bg-white transition-colors">Contact Sales</button>
                </div>
             </div>
-            <div className="flex-1 text-center">
-                <div className="grid grid-cols-2 gap-4 opacity-50">
-                   <div className="h-20 bg-gray-200 rounded-xl"></div>
-                   <div className="h-20 bg-gray-200 rounded-xl"></div>
-                   <div className="h-20 bg-gray-200 rounded-xl"></div>
-                   <div className="h-20 bg-gray-200 rounded-xl"></div>
-                </div>
-                <p className="mt-4 text-sm text-text-secondary">Trusted by leading institutions</p>
+            <div className="flex-1 h-80 rounded-3xl overflow-hidden">
+                <img src="/solutions_institutions.jpg" alt="University campus" className="w-full h-full object-cover" />
             </div>
          </div>
 
