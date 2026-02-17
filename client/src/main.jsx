@@ -16,6 +16,15 @@ import ProductPage from "./routes/productPage/ProductPage";
 import SolutionsPage from "./routes/solutionsPage/SolutionsPage";
 import PricingPage from "./routes/pricingPage/PricingPage";
 import DevelopersPage from "./routes/developersPage/DevelopersPage";
+import AboutPage from "./routes/aboutPage/AboutPage";
+import CareersPage from "./routes/careersPage/CareersPage";
+import BlogPage from "./routes/blogPage/BlogPage";
+import ContactPage from "./routes/contactPage/ContactPage";
+import PressPage from "./routes/pressPage/PressPage";
+import PrivacyPolicyPage from "./routes/privacyPage/PrivacyPolicyPage";
+import TermsPage from "./routes/termsPage/TermsPage";
+import CookiePolicyPage from "./routes/cookiePage/CookiePolicyPage";
+import AccessibilityPage from "./routes/accessibilityPage/AccessibilityPage";
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -31,6 +40,15 @@ const router = createBrowserRouter([
           { path: "/solutions", element: <SolutionsPage /> },
           { path: "/pricing", element: <PricingPage /> },
           { path: "/developers", element: <DevelopersPage /> },
+          { path: "/about", element: <AboutPage /> },
+          { path: "/careers", element: <CareersPage /> },
+          { path: "/blog", element: <BlogPage /> },
+          { path: "/contact", element: <ContactPage /> },
+          { path: "/press", element: <PressPage /> },
+          { path: "/privacy", element: <PrivacyPolicyPage /> },
+          { path: "/terms", element: <TermsPage /> },
+          { path: "/cookies", element: <CookiePolicyPage /> },
+          { path: "/accessibility", element: <AccessibilityPage /> },
         ],
       },
       { path: "/sign-in/*", element: <SignInPage /> },
