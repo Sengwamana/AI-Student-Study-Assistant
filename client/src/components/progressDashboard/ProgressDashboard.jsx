@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./progressDashboard.css";
 
 const ProgressDashboard = ({ onClose }) => {
   // Load stats from localStorage
@@ -134,35 +133,35 @@ const ProgressDashboard = ({ onClose }) => {
   };
 
   return (
-    <div className="progressOverlay">
-      <div className="progressModal">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-[1000] animate-fade-in p-4">
+      <div className="bg-surface rounded-3xl w-full max-w-[700px] max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-slide-up border border-white/10 dark:border-white/5">
         {/* Header */}
-        <div className="progressHeader">
-          <h2>📊 Progress Dashboard</h2>
-          <button className="closeBtn" onClick={onClose}>✕</button>
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-800">
+          <h2 className="text-2xl font-bold bg-gradient-to-br from-indigo-500 to-violet-500 bg-clip-text text-transparent m-0">📊 Progress Dashboard</h2>
+          <button className="w-9 h-9 rounded-xl border-0 bg-gray-100 dark:bg-gray-800 text-text-muted transition-all hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-500 cursor-pointer text-lg flex items-center justify-center" onClick={onClose}>✕</button>
         </div>
 
         {/* Motivational Banner */}
-        <div className="motivationalBanner">
-          <p>{getMotivationalMessage()}</p>
+        <div className="mx-7 my-4 p-4 bg-gradient-to-br from-indigo-50/50 to-violet-50/50 dark:from-indigo-900/10 dark:to-violet-900/10 rounded-2xl border-l-4 border-indigo-500">
+          <p className="m-0 text-[15px] font-medium text-text-secondary">{getMotivationalMessage()}</p>
         </div>
 
         {/* Tabs */}
-        <div className="progressTabs">
+        <div className="flex gap-2 px-7 mb-5 overflow-x-auto pb-2 scrollbar-none">
           <button 
-            className={`progressTab ${activeTab === "overview" ? "active" : ""}`}
+            className={`py-2.5 px-4.5 border-0 rounded-xl text-sm font-semibold cursor-pointer transition-all whitespace-nowrap ${activeTab === "overview" ? "bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/25" : "bg-gray-100 dark:bg-gray-800 text-text-secondary hover:bg-indigo-50 dark:hover:bg-indigo-900/10 hover:text-indigo-600"}`}
             onClick={() => setActiveTab("overview")}
           >
             📈 Overview
           </button>
           <button 
-            className={`progressTab ${activeTab === "achievements" ? "active" : ""}`}
+            className={`py-2.5 px-4.5 border-0 rounded-xl text-sm font-semibold cursor-pointer transition-all whitespace-nowrap ${activeTab === "achievements" ? "bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/25" : "bg-gray-100 dark:bg-gray-800 text-text-secondary hover:bg-indigo-50 dark:hover:bg-indigo-900/10 hover:text-indigo-600"}`}
             onClick={() => setActiveTab("achievements")}
           >
             🏆 Achievements
           </button>
           <button 
-            className={`progressTab ${activeTab === "history" ? "active" : ""}`}
+            className={`py-2.5 px-4.5 border-0 rounded-xl text-sm font-semibold cursor-pointer transition-all whitespace-nowrap ${activeTab === "history" ? "bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-500/25" : "bg-gray-100 dark:bg-gray-800 text-text-secondary hover:bg-indigo-50 dark:hover:bg-indigo-900/10 hover:text-indigo-600"}`}
             onClick={() => setActiveTab("history")}
           >
             📅 History
@@ -170,127 +169,126 @@ const ProgressDashboard = ({ onClose }) => {
         </div>
 
         {/* Tab Content */}
-        <div className="progressContent">
+        <div className="flex-1 overflow-y-auto px-7 pb-5 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800">
           {activeTab === "overview" && (
             <>
               {/* Stats Grid */}
-              <div className="statsGrid">
-                <div className="statCard primary">
-                  <span className="statIcon">⏱️</span>
-                  <div className="statInfo">
-                    <span className="statValue">{formatTime(stats.totalStudyTime)}</span>
-                    <span className="statLabel">Total Focus Time</span>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-6">
+                <div className="flex items-center gap-3.5 p-4.5 bg-gradient-to-br from-indigo-50/50 to-violet-50/50 dark:from-indigo-900/10 dark:to-violet-900/10 border border-indigo-100 dark:border-indigo-900/30 rounded-2xl transition-all hover:-translate-y-0.5 hover:shadow-md col-span-1 sm:col-span-2">
+                  <span className="text-3xl">⏱️</span>
+                  <div className="flex flex-col">
+                    <span className="text-3xl font-bold bg-gradient-to-br from-indigo-500 to-violet-500 bg-clip-text text-transparent">{formatTime(stats.totalStudyTime)}</span>
+                    <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">Total Focus Time</span>
                   </div>
                 </div>
-                <div className="statCard">
-                  <span className="statIcon">🍅</span>
-                  <div className="statInfo">
-                    <span className="statValue">{stats.sessionsCompleted}</span>
-                    <span className="statLabel">Sessions</span>
+                <div className="flex items-center gap-3.5 p-4.5 bg-gray-50 dark:bg-gray-800/50 rounded-2xl transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-100 dark:hover:border-gray-700">
+                  <span className="text-3xl">🍅</span>
+                  <div className="flex flex-col">
+                    <span className="text-2xl font-bold text-text-primary">{stats.sessionsCompleted}</span>
+                    <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">Sessions</span>
                   </div>
                 </div>
-                <div className="statCard">
-                  <span className="statIcon">🔥</span>
-                  <div className="statInfo">
-                    <span className="statValue">{stats.streakDays}</span>
-                    <span className="statLabel">Day Streak</span>
+                <div className="flex items-center gap-3.5 p-4.5 bg-gray-50 dark:bg-gray-800/50 rounded-2xl transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-100 dark:hover:border-gray-700">
+                  <span className="text-3xl">🔥</span>
+                  <div className="flex flex-col">
+                    <span className="text-2xl font-bold text-text-primary">{stats.streakDays}</span>
+                    <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">Day Streak</span>
                   </div>
                 </div>
-                <div className="statCard">
-                  <span className="statIcon">💬</span>
-                  <div className="statInfo">
-                    <span className="statValue">{stats.questionsAsked}</span>
-                    <span className="statLabel">Questions Asked</span>
+                <div className="flex items-center gap-3.5 p-4.5 bg-gray-50 dark:bg-gray-800/50 rounded-2xl transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-100 dark:hover:border-gray-700">
+                  <span className="text-3xl">💬</span>
+                  <div className="flex flex-col">
+                    <span className="text-2xl font-bold text-text-primary">{stats.questionsAsked}</span>
+                    <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">Questions Asked</span>
                   </div>
                 </div>
               </div>
 
               {/* Weekly Chart */}
-              <div className="chartSection">
-                <h3>📅 This Week's Activity</h3>
-                <div className="barChart">
+              <div className="mb-6 bg-gray-50 dark:bg-gray-800/30 p-5 rounded-2xl border border-gray-100 dark:border-gray-800">
+                <h3 className="text-base font-semibold text-text-secondary mb-4 m-0">📅 This Week's Activity</h3>
+                <div className="flex items-end justify-between h-[140px] gap-2">
                   {weeklyData.map((day, i) => (
-                    <div key={i} className="barContainer">
-                      <div className="barWrapper">
+                    <div key={i} className="flex-1 flex flex-col items-center h-full justify-end group">
+                      <div className="flex-1 w-full flex items-end justify-center relative">
                         <div 
-                          className="bar"
+                          className="w-[80%] max-w-[40px] bg-gradient-to-b from-indigo-500 to-violet-500 rounded-t-lg transition-all duration-500 relative hover:from-indigo-400 hover:to-violet-400 shadow-sm"
                           style={{ 
                             height: `${(day.minutes / getMaxMinutes()) * 100}%`,
                             minHeight: day.minutes > 0 ? "8px" : "0"
                           }}
-                          title={`${day.minutes} minutes`}
                         >
                           {day.minutes > 0 && (
-                            <span className="barValue">{day.minutes}m</span>
+                            <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] font-bold text-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-surface px-1.5 py-0.5 rounded shadow-sm border border-indigo-100 dark:border-indigo-900/30 z-10">{day.minutes}m</span>
                           )}
                         </div>
                       </div>
-                      <span className="barLabel">{day.day}</span>
+                      <span className="text-xs font-medium text-text-muted mt-2">{day.day}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Quick Stats Row */}
-              <div className="quickStats">
-                <div className="quickStat">
-                  <span className="quickIcon">🗂️</span>
-                  <span className="quickValue">{stats.flashcardsReviewed}</span>
-                  <span className="quickLabel">Flashcards</span>
+              <div className="flex justify-center gap-8 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl border border-gray-100 dark:border-gray-800 sm:flex-row flex-col sm:gap-12 gap-6">
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-2xl">🗂️</span>
+                  <span className="text-xl font-bold text-text-primary">{stats.flashcardsReviewed}</span>
+                  <span className="text-[10px] text-text-muted uppercase tracking-wider">Flashcards</span>
                 </div>
-                <div className="quickStat">
-                  <span className="quickIcon">📝</span>
-                  <span className="quickValue">{stats.quizzesCompleted}</span>
-                  <span className="quickLabel">Quizzes</span>
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-2xl">📝</span>
+                  <span className="text-xl font-bold text-text-primary">{stats.quizzesCompleted}</span>
+                  <span className="text-[10px] text-text-muted uppercase tracking-wider">Quizzes</span>
                 </div>
-                <div className="quickStat">
-                  <span className="quickIcon">💭</span>
-                  <span className="quickValue">{stats.chatsCreated}</span>
-                  <span className="quickLabel">Chats</span>
+                <div className="flex flex-col items-center gap-1">
+                  <span className="text-2xl">💭</span>
+                  <span className="text-xl font-bold text-text-primary">{stats.chatsCreated}</span>
+                  <span className="text-[10px] text-text-muted uppercase tracking-wider">Chats</span>
                 </div>
               </div>
             </>
           )}
 
           {activeTab === "achievements" && (
-            <div className="achievementsSection">
+            <div className="pb-4">
               {getAchievements().length > 0 ? (
-                <div className="achievementsGrid">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                   {getAchievements().map((ach, i) => (
-                    <div key={i} className="achievementCard">
-                      <span className="achievementIcon">{ach.icon}</span>
-                      <div className="achievementInfo">
-                        <span className="achievementName">{ach.name}</span>
-                        <span className="achievementDesc">{ach.desc}</span>
+                    <div key={i} className="flex items-center gap-3.5 p-3.5 bg-gradient-to-br from-indigo-50/30 to-violet-50/30 dark:from-indigo-900/10 dark:to-violet-900/10 rounded-xl border border-indigo-100 dark:border-indigo-900/30 animate-scale-in">
+                      <span className="text-3xl">{ach.icon}</span>
+                      <div className="flex flex-col">
+                        <span className="font-semibold text-text-primary text-sm">{ach.name}</span>
+                        <span className="text-xs text-text-secondary">{ach.desc}</span>
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="emptyState">
-                  <span className="emptyIcon">🎯</span>
-                  <p>Complete study sessions to unlock achievements!</p>
+                <div className="text-center py-10 px-5 text-text-muted">
+                  <span className="text-5xl block mb-3">🎯</span>
+                  <p className="m-0">Complete study sessions to unlock achievements!</p>
                 </div>
               )}
 
               {/* Locked Achievements Preview */}
-              <div className="lockedSection">
-                <h4>🔒 More to Unlock</h4>
-                <div className="lockedGrid">
+              <div className="mt-5 pt-5 border-t border-gray-100 dark:border-gray-800">
+                <h4 className="text-sm text-text-secondary mb-3 m-0 font-semibold">🔒 More to Unlock</h4>
+                <div className="flex flex-col gap-2">
                   {stats.sessionsCompleted < 50 && (
-                    <div className="lockedAchievement">
+                    <div className="flex items-center gap-2.5 p-2.5 bg-gray-50 dark:bg-gray-800/50 rounded-lg opacity-60 text-sm text-text-muted select-none">
                       <span>🏆</span>
                       <span>Master - 50 sessions</span>
                     </div>
                   )}
                   {stats.streakDays < 7 && (
-                    <div className="lockedAchievement">
+                    <div className="flex items-center gap-2.5 p-2.5 bg-gray-50 dark:bg-gray-800/50 rounded-lg opacity-60 text-sm text-text-muted select-none">
                       <span>🚀</span>
                       <span>Unstoppable - 7 day streak</span>
                     </div>
                   )}
                   {stats.totalStudyTime < 18000 && (
-                    <div className="lockedAchievement">
+                    <div className="flex items-center gap-2.5 p-2.5 bg-gray-50 dark:bg-gray-800/50 rounded-lg opacity-60 text-sm text-text-muted select-none">
                       <span>📚</span>
                       <span>Bookworm - 5 hours focus</span>
                     </div>
@@ -301,19 +299,19 @@ const ProgressDashboard = ({ onClose }) => {
           )}
 
           {activeTab === "history" && (
-            <div className="historySection">
-              <div className="historyList">
+            <div className="pb-4">
+              <div className="flex flex-col gap-2.5">
                 {weeklyData.slice().reverse().map((day, i) => (
-                  <div key={i} className="historyItem">
-                    <div className="historyDate">
-                      <span className="historyDay">{day.day}</span>
-                      <span className="historyFullDate">{day.date}</span>
+                  <div key={i} className="flex items-center justify-between p-3.5 bg-gray-50 dark:bg-gray-800/30 rounded-xl transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/10 border border-transparent hover:border-indigo-100 dark:hover:border-indigo-900/30">
+                    <div className="flex flex-col">
+                      <span className="font-semibold text-text-primary text-sm">{day.day}</span>
+                      <span className="text-xs text-text-muted">{day.date}</span>
                     </div>
-                    <div className="historyStats">
-                      <span className="historyMinutes">{day.minutes}m studied</span>
-                      <span className="historySessions">{day.sessions} sessions</span>
+                    <div className="flex flex-col items-end">
+                      <span className="font-semibold text-indigo-500 text-sm">{day.minutes}m studied</span>
+                      <span className="text-xs text-text-muted">{day.sessions} sessions</span>
                     </div>
-                    <div className="historyIndicator">
+                    <div className="text-xl">
                       {day.minutes >= 60 ? "🌟" : day.minutes >= 25 ? "✅" : day.minutes > 0 ? "📝" : "—"}
                     </div>
                   </div>
@@ -324,8 +322,8 @@ const ProgressDashboard = ({ onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="progressFooter">
-          <button className="resetBtn" onClick={resetAllStats}>
+        <div className="p-4 border-t border-gray-100 dark:border-gray-800 flex justify-end">
+          <button className="py-2.5 px-4 bg-red-50 dark:bg-red-900/10 text-red-500 border-0 rounded-xl text-xs font-semibold cursor-pointer transition-all hover:bg-red-100 dark:hover:bg-red-900/20 hover:text-red-600" onClick={resetAllStats}>
             🗑️ Reset All Data
           </button>
         </div>

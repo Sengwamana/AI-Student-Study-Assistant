@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import "./studyTimer.css";
 
 const StudyTimer = ({ onClose }) => {
   // Timer modes
@@ -32,8 +31,7 @@ const StudyTimer = ({ onClose }) => {
   });
 
   const intervalRef = useRef(null);
-  const audioRef = useRef(null);
-
+  
   // Load saved stats
   useEffect(() => {
     const savedStats = localStorage.getItem("pomodoroStats");
@@ -75,7 +73,6 @@ const StudyTimer = ({ onClose }) => {
 
   // Play notification sound
   const playNotification = useCallback(() => {
-    // Create audio context for notification
     try {
       const audioContext = new (window.AudioContext || window.webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
@@ -90,7 +87,6 @@ const StudyTimer = ({ onClose }) => {
       
       oscillator.start();
       
-      // Play 3 beeps
       setTimeout(() => oscillator.stop(), 200);
       setTimeout(() => {
         const osc2 = audioContext.createOscillator();
@@ -120,17 +116,15 @@ const StudyTimer = ({ onClose }) => {
       const newSessions = sessionsCompleted + 1;
       setSessionsCompleted(newSessions);
       
-      // Add to history
       setSessionHistory((prev) => [
         {
           date: new Date().toISOString(),
           duration: customDurations.focus,
           type: "focus",
         },
-        ...prev.slice(0, 49), // Keep last 50 sessions
+        ...prev.slice(0, 49),
       ]);
 
-      // After 4 focus sessions, suggest long break
       if (newSessions % 4 === 0) {
         setMode("LONG_BREAK");
         setTimeLeft(customDurations.longBreak * 60);
@@ -143,7 +137,6 @@ const StudyTimer = ({ onClose }) => {
       setTimeLeft(customDurations.focus * 60);
     }
 
-    // Browser notification
     if (Notification.permission === "granted") {
       new Notification("⏰ Pomodoro Timer", {
         body: mode === "FOCUS" 
@@ -208,7 +201,6 @@ const StudyTimer = ({ onClose }) => {
     const numValue = Math.max(1, Math.min(60, parseInt(value) || 1));
     setCustomDurations((prev) => ({ ...prev, [type]: numValue }));
     
-    // Update current timer if matching mode
     if (type === "focus" && mode === "FOCUS") {
       setTimeLeft(numValue * 60);
     } else if (type === "shortBreak" && mode === "SHORT_BREAK") {
@@ -257,40 +249,40 @@ const StudyTimer = ({ onClose }) => {
   if (isMinimized) {
     return (
       <div 
-        className={`timerMinimized ${isRunning ? "running" : ""}`}
+        className={`fixed bottom-6 right-6 flex items-center gap-2.5 py-3 px-5 bg-surface/95 backdrop-blur rounded-full shadow-xl cursor-pointer z-[1000] border-2 transition-all hover:scale-105 hover:shadow-2xl animate-slide-up ${isRunning ? "animate-pulse" : ""}`}
         onClick={() => setIsMinimized(false)}
         style={{ borderColor: MODES[mode].color }}
       >
-        <span className="miniIcon">🍅</span>
-        <span className="miniTime">{formatTime(timeLeft)}</span>
-        <span className="miniMode">{MODES[mode].name}</span>
+        <span className="text-xl">🍅</span>
+        <span className="text-xl font-bold text-text-primary tabular-nums">{formatTime(timeLeft)}</span>
+        <span className="text-xs text-text-secondary px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-full">{MODES[mode].name}</span>
       </div>
     );
   }
 
   return (
-    <div className="timerOverlay">
-      <div className="timerModal">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-[1000] animate-fade-in p-4" onClick={onClose}>
+      <div className="bg-surface rounded-3xl p-7 w-full max-w-[400px] shadow-2xl border border-white/10 dark:border-white/5 animate-slide-up" onClick={e => e.stopPropagation()}>
         {/* Header */}
-        <div className="timerHeader">
-          <h3>🍅 Pomodoro Timer</h3>
-          <div className="timerHeaderActions">
+        <div className="flex items-center justify-between mb-5">
+          <h3 className="text-2xl font-bold text-text-primary m-0">🍅 Pomodoro Timer</h3>
+          <div className="flex gap-2">
             <button 
-              className="headerBtn" 
+              className="w-9 h-9 rounded-xl border-0 bg-gray-100 dark:bg-gray-800 text-base cursor-pointer transition-all flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 hover:scale-105" 
               onClick={() => setShowSettings(!showSettings)}
               title="Settings"
             >
               ⚙️
             </button>
             <button 
-              className="headerBtn" 
+              className="w-9 h-9 rounded-xl border-0 bg-gray-100 dark:bg-gray-800 text-base cursor-pointer transition-all flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 hover:scale-105" 
               onClick={() => setIsMinimized(true)}
               title="Minimize (M)"
             >
               ➖
             </button>
             <button 
-              className="headerBtn closeBtn" 
+              className="w-9 h-9 rounded-xl border-0 bg-gray-100 dark:bg-gray-800 text-base cursor-pointer transition-all flex items-center justify-center hover:bg-red-50 dark:hover:bg-red-900/10 hover:text-red-500" 
               onClick={onClose}
               title="Close (Esc)"
             >
@@ -301,52 +293,55 @@ const StudyTimer = ({ onClose }) => {
 
         {showSettings ? (
           /* Settings Panel */
-          <div className="settingsPanel">
-            <h4>⚙️ Timer Settings</h4>
+          <div className="py-2">
+            <h4 className="text-lg font-semibold mb-5 text-text-primary m-0">⚙️ Timer Settings</h4>
             
-            <div className="settingGroup">
-              <label>Focus Duration (minutes)</label>
+            <div className="mb-4">
+              <label className="block text-[13px] font-medium text-text-secondary mb-1.5">Focus Duration (minutes)</label>
               <input
                 type="number"
                 value={customDurations.focus}
                 onChange={(e) => updateCustomDuration("focus", e.target.value)}
                 min="1"
                 max="60"
+                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/50 text-text-primary outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
               />
             </div>
             
-            <div className="settingGroup">
-              <label>Short Break (minutes)</label>
+            <div className="mb-4">
+              <label className="block text-[13px] font-medium text-text-secondary mb-1.5">Short Break (minutes)</label>
               <input
                 type="number"
                 value={customDurations.shortBreak}
                 onChange={(e) => updateCustomDuration("shortBreak", e.target.value)}
                 min="1"
                 max="30"
+                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/50 text-text-primary outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
               />
             </div>
             
-            <div className="settingGroup">
-              <label>Long Break (minutes)</label>
+            <div className="mb-4">
+              <label className="block text-[13px] font-medium text-text-secondary mb-1.5">Long Break (minutes)</label>
               <input
                 type="number"
                 value={customDurations.longBreak}
                 onChange={(e) => updateCustomDuration("longBreak", e.target.value)}
                 min="1"
                 max="60"
+                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-800/50 text-text-primary outline-none transition-all focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10"
               />
             </div>
 
-            <div className="settingInfo">
-              <p>💡 Long break triggers after every 4 focus sessions</p>
+            <div className="p-3 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-xl my-5">
+              <p className="m-0 text-[13px] text-indigo-600 dark:text-indigo-400">💡 Long break triggers after every 4 focus sessions</p>
             </div>
 
-            <button className="resetStatsBtn" onClick={resetStats}>
+            <button className="w-full p-3 bg-red-50 dark:bg-red-900/10 text-red-500 border-0 rounded-xl text-sm font-medium cursor-pointer mb-3 transition-all hover:bg-red-100 dark:hover:bg-red-900/20" onClick={resetStats}>
               🗑️ Reset All Statistics
             </button>
 
             <button 
-              className="closeSettingsBtn"
+              className="w-full p-3.5 bg-gradient-to-br from-indigo-500 to-violet-600 text-white border-0 rounded-xl text-base font-semibold cursor-pointer transition-all hover:-translate-y-0.5 hover:shadow-lg"
               onClick={() => setShowSettings(false)}
             >
               ✓ Done
@@ -355,11 +350,15 @@ const StudyTimer = ({ onClose }) => {
         ) : (
           <>
             {/* Mode Tabs */}
-            <div className="modeTabs">
+            <div className="flex gap-2 mb-6">
               {Object.entries(MODES).map(([key, value]) => (
                 <button
                   key={key}
-                  className={`modeTab ${mode === key ? "active" : ""}`}
+                  className={`flex-1 py-2.5 px-3 rounded-xl border-0 text-[13px] font-semibold cursor-pointer transition-all ${
+                      mode === key 
+                        ? "text-white shadow-md transform scale-105" 
+                        : "bg-gray-100 dark:bg-gray-800 text-text-secondary hover:bg-gray-200 dark:hover:bg-gray-700"
+                  }`}
                   onClick={() => switchMode(key)}
                   style={mode === key ? { background: value.color } : {}}
                 >
@@ -369,16 +368,16 @@ const StudyTimer = ({ onClose }) => {
             </div>
 
             {/* Timer Display */}
-            <div className="timerDisplay">
-              <svg className="progressRing" viewBox="0 0 200 200">
+            <div className="relative w-[200px] h-[200px] mx-auto mb-6">
+              <svg className="w-full h-full -rotate-90" viewBox="0 0 200 200">
                 <circle
-                  className="progressBg"
+                  className="fill-none stroke-gray-100 dark:stroke-gray-800 stroke-[8]"
                   cx="100"
                   cy="100"
                   r="90"
                 />
                 <circle
-                  className="progressFill"
+                  className="fill-none stroke-[8] stroke-linecap-round transition-all duration-500"
                   cx="100"
                   cy="100"
                   r="90"
@@ -388,23 +387,23 @@ const StudyTimer = ({ onClose }) => {
                   }}
                 />
               </svg>
-              <div className="timeText">
-                <span className="time">{formatTime(timeLeft)}</span>
-                <span className="modeLabel">{MODES[mode].name}</span>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                <span className="block text-5xl font-bold text-text-primary tabular-nums tracking-tight">{formatTime(timeLeft)}</span>
+                <span className="block text-sm text-text-secondary mt-1 font-medium">{MODES[mode].name}</span>
               </div>
             </div>
 
             {/* Controls */}
-            <div className="timerControls">
+            <div className="flex items-center justify-center gap-4 mb-6">
               <button 
-                className="controlBtn reset" 
+                className="w-12 h-12 bg-gray-100 dark:bg-gray-800 text-xl text-text-secondary border-0 rounded-full cursor-pointer transition-all flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 hover:scale-110" 
                 onClick={resetTimer}
                 title="Reset (R)"
               >
                 ↺
               </button>
               <button
-                className={`controlBtn main ${isRunning ? "pause" : "play"}`}
+                className={`w-[72px] h-[72px] text-3xl text-white border-0 rounded-full cursor-pointer transition-all flex items-center justify-center shadow-lg hover:scale-105 hover:shadow-xl active:scale-95`}
                 onClick={toggleTimer}
                 style={{ background: MODES[mode].color }}
                 title="Start/Pause (Space)"
@@ -412,7 +411,7 @@ const StudyTimer = ({ onClose }) => {
                 {isRunning ? "⏸" : "▶"}
               </button>
               <button 
-                className="controlBtn skip" 
+                className="w-12 h-12 bg-gray-100 dark:bg-gray-800 text-xl text-text-secondary border-0 rounded-full cursor-pointer transition-all flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 hover:scale-110" 
                 onClick={handleTimerComplete}
                 title="Skip to next"
               >
@@ -421,30 +420,30 @@ const StudyTimer = ({ onClose }) => {
             </div>
 
             {/* Stats */}
-            <div className="timerStats">
-              <div className="stat">
-                <span className="statValue">{sessionsCompleted}</span>
-                <span className="statLabel">Sessions</span>
+            <div className="flex justify-center gap-8 mb-5 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-2xl">
+              <div className="text-center">
+                <span className="block text-2xl font-bold text-text-primary">{sessionsCompleted}</span>
+                <span className="text-xs text-text-muted uppercase tracking-wider font-medium">Sessions</span>
               </div>
-              <div className="stat">
-                <span className="statValue">{formatTotalTime(totalFocusTime)}</span>
-                <span className="statLabel">Focus Time</span>
+              <div className="text-center">
+                <span className="block text-2xl font-bold text-text-primary">{formatTotalTime(totalFocusTime)}</span>
+                <span className="text-xs text-text-muted uppercase tracking-wider font-medium">Focus Time</span>
               </div>
-              <div className="stat">
-                <span className="statValue">{Math.floor(sessionsCompleted / 4)}</span>
-                <span className="statLabel">Cycles</span>
+              <div className="text-center">
+                <span className="block text-2xl font-bold text-text-primary">{Math.floor(sessionsCompleted / 4)}</span>
+                <span className="text-xs text-text-muted uppercase tracking-wider font-medium">Cycles</span>
               </div>
             </div>
 
             {/* Today's Sessions */}
             {sessionHistory.length > 0 && (
-              <div className="todaySessions">
-                <h4>Recent Sessions</h4>
-                <div className="sessionDots">
+              <div className="text-center mb-4">
+                <h4 className="text-[13px] text-text-secondary mb-2 font-medium m-0">Recent Sessions</h4>
+                <div className="flex justify-center gap-1.5 flex-wrap">
                   {sessionHistory.slice(0, 12).map((session, i) => (
                     <div 
                       key={i} 
-                      className="sessionDot"
+                      className="text-lg animate-pop-in cursor-help hover:scale-125 transition-transform"
                       title={new Date(session.date).toLocaleTimeString()}
                     >
                       🍅
@@ -455,10 +454,10 @@ const StudyTimer = ({ onClose }) => {
             )}
 
             {/* Shortcuts */}
-            <div className="shortcuts">
-              <span>Space: Start/Pause</span>
-              <span>R: Reset</span>
-              <span>M: Minimize</span>
+            <div className="flex justify-center gap-3 text-[11px] text-text-muted flex-wrap">
+              <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">Space: Start/Pause</span>
+              <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">R: Reset</span>
+              <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded border border-gray-200 dark:border-gray-700">M: Minimize</span>
             </div>
           </>
         )}

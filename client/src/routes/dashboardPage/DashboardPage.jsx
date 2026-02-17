@@ -1,12 +1,34 @@
 import { useState, useEffect, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import "./dashboardPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import PDFUpload from "../../components/pdfUpload/PDFUpload";
 import Flashcards from "../../components/flashcards/Flashcards";
+
+const MarkdownComponents = {
+  h1: ({node, ...props}) => <h1 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400 mb-4 pb-2 border-b-2 border-indigo-100 dark:border-indigo-900/30" {...props} />,
+  h2: ({node, ...props}) => <h2 className="text-xl font-semibold text-indigo-500 dark:text-indigo-400 mt-6 mb-3" {...props} />,
+  h3: ({node, ...props}) => <h3 className="text-lg font-medium text-text-primary mt-4 mb-2 flex items-center gap-2" {...props} />,
+  p: ({node, ...props}) => <p className="mb-4 text-text-secondary leading-relaxed" {...props} />,
+  ul: ({node, ...props}) => <ul className="list-disc list-outside ml-6 mb-4 space-y-2 text-text-secondary marker:text-indigo-500" {...props} />,
+  ol: ({node, ...props}) => <ol className="list-decimal list-outside ml-6 mb-4 space-y-2 text-text-secondary marker:text-indigo-500 marker:font-bold" {...props} />,
+  li: ({node, ...props}) => <li className="pl-1" {...props} />,
+  blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-indigo-500 bg-indigo-50 dark:bg-indigo-900/10 p-4 rounded-r-lg my-4 italic text-text-secondary shadow-sm" {...props} />,
+  code: ({node, inline, className, children, ...props}) => {
+    return inline ? 
+      <code className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 px-1.5 py-0.5 rounded text-sm font-mono border border-indigo-100 dark:border-indigo-900/30" {...props}>{children}</code> :
+      <pre className="bg-slate-900 text-slate-100 p-4 rounded-xl overflow-x-auto my-4 text-sm font-mono shadow-inner border border-slate-800" {...props}><code className="bg-transparent p-0 border-none" {...props}>{children}</code></pre>
+  },
+  a: ({node, ...props}) => <a className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 underline decoration-indigo-300 dark:decoration-indigo-700 underline-offset-2 transition-colors font-medium" {...props} />,
+  table: ({node, ...props}) => <div className="overflow-x-auto my-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm"><table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props} /></div>,
+  thead: ({node, ...props}) => <thead className="bg-gray-50 dark:bg-gray-800/50" {...props} />,
+  th: ({node, ...props}) => <th className="px-4 py-3 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider" {...props} />,
+  td: ({node, ...props}) => <td className="px-4 py-3 text-sm text-text-secondary border-t border-gray-100 dark:border-gray-800" {...props} />,
+  hr: ({node, ...props}) => <hr className="my-6 border-gray-200 dark:border-gray-800" {...props} />,
+  strong: ({node, ...props}) => <strong className="font-bold text-text-primary bg-indigo-50/50 dark:bg-indigo-900/20 px-0.5 rounded" {...props} />,
+};
 
 const DashboardPage = () => {
   const queryClient = useQueryClient();
@@ -623,30 +645,30 @@ Remember: Output ONLY the JSON array, nothing else.`;
   };
 
   return (
-    <div className="dashboardPage">
-      <div className="studyAssistant">
+    <div className="flex flex-col h-full items-center justify-start p-6 overflow-y-auto bg-surface animate-fade-in transition-colors duration-300 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800 scrollbar-track-transparent">
+      <div className="flex flex-col gap-6 max-w-[860px] w-full mx-auto pb-10">
         {/* Active Chat Context Banner */}
         {activeChatId && (
-          <div className="activeChatBanner">
-            <div className="bannerContent">
-              <span className="bannerIcon">💬</span>
-              <div className="bannerText">
-                <span className="bannerTitle">Active Session: {activeChatTitle || "Study Session"}</span>
-                <span className="bannerSubtitle">
+          <div className="flex items-center justify-between gap-4 p-4 px-5 bg-gradient-to-br from-indigo-50/50 to-violet-50/50 dark:from-indigo-900/10 dark:to-violet-900/10 border border-indigo-100 dark:border-indigo-900/30 rounded-2xl animate-fade-in-down shadow-sm">
+            <div className="flex items-center gap-3.5">
+              <span className="text-2xl">💬</span>
+              <div className="flex flex-col gap-0.5">
+                <span className="font-semibold text-[15px] text-text-primary">Active Session: {activeChatTitle || "Study Session"}</span>
+                <span className="text-[13px] text-text-muted">
                   {activeChatHistory.length} messages • Summarize, quiz, or continue chatting
                 </span>
               </div>
             </div>
-            <div className="bannerActions">
+            <div className="flex gap-2.5">
               <button 
-                className="continueButton" 
+                className="py-2 px-4 bg-gradient-to-br from-indigo-500 to-violet-600 text-white border-0 rounded-xl text-[13px] font-semibold cursor-pointer transition-all duration-200 shadow-md shadow-indigo-500/20 hover:-translate-y-px hover:shadow-lg hover:shadow-indigo-500/30 active:translate-y-0 active:shadow-sm"
                 onClick={handleStartChat}
                 aria-label="Continue this chat session"
               >
                 💬 Continue Chat
               </button>
               <button 
-                className="clearButton" 
+                className="py-2 px-3.5 bg-transparent text-text-muted border border-gray-200 dark:border-gray-700 rounded-xl text-[13px] font-medium cursor-pointer transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-text-primary"
                 onClick={handleClearContext}
                 aria-label="Start a fresh session"
               >
@@ -656,17 +678,17 @@ Remember: Output ONLY the JSON array, nothing else.`;
           </div>
         )}
 
-        <div className="inputSection">
+        <div className="flex flex-col gap-5 bg-surface p-6 rounded-[20px] border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow duration-300 animate-fade-in-up">
           {/* Study Notes Input with Tabs */}
-          <div className="formGroup">
-            <label>Study Notes:</label>
+          <div className="flex flex-col gap-3">
+            <label className="font-semibold text-[13px] text-text-secondary tracking-tight">Study Notes:</label>
             
             {/* Tabs */}
-            <div className="inputTabs">
+            <div className="flex gap-1.5 p-1 bg-gray-50 dark:bg-gray-800/50 rounded-xl mb-1">
               {activeChatId && (
                 <button
                   type="button"
-                  className={`tab ${inputSource === "chat" ? "active" : ""}`}
+                  className={`flex-1 py-2 px-3 text-xs font-semibold rounded-lg transition-all duration-200 ${inputSource === "chat" ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-text-muted hover:text-text-primary hover:bg-gray-200/50 dark:hover:bg-gray-700/30"}`}
                   onClick={() => handleTabChange("chat")}
                 >
                   💬 From Chat ({activeChatHistory.length} msgs)
@@ -674,43 +696,45 @@ Remember: Output ONLY the JSON array, nothing else.`;
               )}
               <button
                 type="button"
-                className={`tab ${inputSource === "text" ? "active" : ""}`}
+                className={`flex-1 py-2 px-3 text-xs font-semibold rounded-lg transition-all duration-200 ${inputSource === "text" ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-text-muted hover:text-text-primary hover:bg-gray-200/50 dark:hover:bg-gray-700/30"}`}
                 onClick={() => handleTabChange("text")}
               >
                 ✏️ Type/Paste Notes
               </button>
               <button
                 type="button"
-                className={`tab ${inputSource === "pdf" ? "active" : ""}`}
+                className={`flex-1 py-2 px-3 text-xs font-semibold rounded-lg transition-all duration-200 ${inputSource === "pdf" ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm" : "text-text-muted hover:text-text-primary hover:bg-gray-200/50 dark:hover:bg-gray-700/30"}`}
                 onClick={() => handleTabChange("pdf")}
               >
-                📄 Upload PDF
+                 📄 Upload PDF
               </button>
             </div>
 
             {/* Source Warning */}
             {showSourceWarning && (
-              <div className="sourceWarning">
-                <span className="warningIcon">⚠️</span>
-                <p>You have both PDF and typed notes. Currently using: <strong>{inputSource === "pdf" ? "PDF" : "Typed notes"}</strong></p>
-                <div className="sourceOptions">
-                  <label>
+              <div className="flex items-center gap-3 p-3 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-xl text-xs text-amber-700 dark:text-amber-400 animate-fade-in">
+                <span className="text-base">⚠️</span>
+                <p className="flex-1">You have both PDF and typed notes. Currently using: <strong>{inputSource === "pdf" ? "PDF" : "Typed notes"}</strong></p>
+                <div className="flex gap-3">
+                  <label className="flex items-center gap-1.5 cursor-pointer hover:text-amber-900 dark:hover:text-amber-200 transition-colors">
                     <input
                       type="radio"
                       name="inputSource"
                       value="text"
                       checked={inputSource === "text"}
                       onChange={() => setInputSource("text")}
+                      className="accent-amber-500"
                     />
                     Use typed notes
                   </label>
-                  <label>
+                  <label className="flex items-center gap-1.5 cursor-pointer hover:text-amber-900 dark:hover:text-amber-200 transition-colors">
                     <input
                       type="radio"
                       name="inputSource"
                       value="pdf"
                       checked={inputSource === "pdf"}
                       onChange={() => setInputSource("pdf")}
+                      className="accent-amber-500"
                     />
                     Use PDF content
                   </label>
@@ -719,25 +743,27 @@ Remember: Output ONLY the JSON array, nothing else.`;
             )}
 
             {/* Tab Content */}
-            <div className="tabContent">
+            <div className="mt-1">
               {inputSource === "chat" ? (
-                <div className="chatPreview">
-                  <div className="chatPreviewHeader">
+                <div className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden bg-gray-50/50 dark:bg-gray-900/50">
+                  <div className="flex justify-between items-center px-4 py-3 bg-gray-100/50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-800 text-xs font-semibold text-text-secondary">
                     <span>📝 Chat Content Preview</span>
-                    <span className="msgCount">{activeChatHistory.length} messages</span>
+                    <span className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 px-2 py-0.5 rounded-full text-[10px]">
+                      {activeChatHistory.length} messages
+                    </span>
                   </div>
-                  <div className="chatPreviewContent">
+                  <div className="max-h-[200px] overflow-y-auto p-4 flex flex-col gap-3 scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-800">
                     {activeChatHistory.slice(0, 6).map((msg, i) => (
-                      <div key={i} className={`previewMsg ${msg.role}`}>
-                        <span className="msgRole">{msg.role === "user" ? "You" : "AI"}:</span>
-                        <span className="msgText">
+                      <div key={i} className={`flex gap-2 text-[13px] leading-relaxed ${msg.role === "user" ? "text-indigo-600 dark:text-indigo-400" : "text-text-secondary"}`}>
+                        <span className="font-semibold flex-shrink-0 w-8">{msg.role === "user" ? "You" : "AI"}:</span>
+                        <span className="text-text-muted">
                           {(msg.parts?.[0]?.text || '').substring(0, 150)}
                           {(msg.parts?.[0]?.text || '').length > 150 && '...'}
                         </span>
                       </div>
                     ))}
                     {activeChatHistory.length > 6 && (
-                      <div className="moreMessages">
+                      <div className="text-center text-xs text-text-muted py-2 italic bg-black/5 dark:bg-white/5 rounded-lg">
                         +{activeChatHistory.length - 6} more messages
                       </div>
                     )}
@@ -756,6 +782,7 @@ Remember: Output ONLY the JSON array, nothing else.`;
                   }}
                   placeholder="Paste your notes or enter a study topic here..."
                   rows={6}
+                  className="w-full p-4 border border-gray-200 dark:border-gray-800 rounded-xl text-[15px] bg-transparent text-text-primary focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all min-h-[160px] resize-y placeholder:text-text-muted"
                 />
               ) : (
                 <PDFUpload
@@ -769,11 +796,11 @@ Remember: Output ONLY the JSON array, nothing else.`;
 
             {/* PDF metadata indicator when on text tab but PDF is loaded */}
             {inputSource === "text" && pdfMetadata && (
-              <div className="pdfLoadedIndicator">
-                <span>📑 PDF loaded: {pdfMetadata.fileName}</span>
+              <div className="flex items-center justify-between text-xs p-2.5 bg-indigo-50 dark:bg-indigo-900/10 rounded-lg text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900/30 animate-fade-in">
+                <span>📑 PDF loaded: <span className="font-semibold">{pdfMetadata.fileName}</span></span>
                 <button
                   type="button"
-                  className="switchToPdf"
+                  className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline cursor-pointer"
                   onClick={() => setInputSource("pdf")}
                 >
                   View PDF
@@ -783,25 +810,31 @@ Remember: Output ONLY the JSON array, nothing else.`;
           </div>
 
           {/* Education Level Selector */}
-          <div className="formGroup">
-            <label htmlFor="educationLevel">Select Education Level:</label>
-            <select
-              id="educationLevel"
-              value={educationLevel}
-              onChange={(e) => setEducationLevel(e.target.value)}
-            >
-              {educationLevels.map((level) => (
-                <option key={level} value={level}>
-                  {level}
-                </option>
-              ))}
-            </select>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="educationLevel" className="font-semibold text-[13px] text-text-secondary tracking-tight">Select Education Level:</label>
+            <div className="relative">
+              <select
+                id="educationLevel"
+                value={educationLevel}
+                onChange={(e) => setEducationLevel(e.target.value)}
+                className="w-full p-3.5 border border-gray-200 dark:border-gray-800 rounded-xl text-[15px] bg-transparent text-text-primary cursor-pointer transition-all focus:outline-none focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 appearance-none bg-no-repeat pr-10"
+              >
+                {educationLevels.map((level) => (
+                  <option key={level} value={level} className="bg-surface text-text-primary">
+                    {level}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </div>
+            </div>
           </div>
 
           {/* Question Input */}
-          <div className="formGroup">
-            <label htmlFor="question">Ask a Question:</label>
-            <div className="questionInput">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="question" className="font-semibold text-[13px] text-text-secondary tracking-tight">Ask a Question:</label>
+            <div className="flex gap-3">
               <input
                 type="text"
                 id="question"
@@ -812,11 +845,11 @@ Remember: Output ONLY the JSON array, nothing else.`;
                 onKeyDown={(e) => e.key === "Enter" && !isLoading && handleAsk(e)}
                 aria-describedby="questionHint"
                 autoComplete="off"
-                className={isListening ? "listening" : ""}
+                className={`flex-1 p-3.5 border rounded-xl text-[15px] bg-transparent text-text-primary focus:outline-none focus:ring-4 transition-all disabled:opacity-50 ${isListening ? "border-red-500 focus:border-red-500 focus:ring-red-500/10 animate-pulse" : "border-gray-200 dark:border-gray-800 focus:border-indigo-500/50 focus:ring-indigo-500/10 placeholder:text-text-muted"}`}
               />
               {voiceSupported && (
                 <button
-                  className={`voiceButton ${isListening ? "listening" : ""}`}
+                  className={`p-3.5 border rounded-xl text-lg cursor-pointer transition-all disabled:opacity-50 flex items-center justify-center w-[52px] ${isListening ? "bg-red-50 dark:bg-red-900/10 border-red-500 text-red-500 animate-pulse" : "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-text-secondary hover:bg-indigo-50 dark:hover:bg-indigo-900/20 hover:text-indigo-600 hover:border-indigo-200 dark:hover:border-indigo-800"}`}
                   onClick={toggleVoiceInput}
                   type="button"
                   title={isListening ? "Stop listening" : "Voice input"}
@@ -826,49 +859,51 @@ Remember: Output ONLY the JSON array, nothing else.`;
                 </button>
               )}
               <button
-                className="askButton"
+                className="py-2.5 px-6 bg-gradient-to-br from-indigo-500 to-violet-600 text-white rounded-xl text-sm font-semibold cursor-pointer transition-all shadow-md shadow-indigo-500/20 hover:-translate-y-px hover:shadow-lg hover:shadow-indigo-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none active:translate-y-0 active:shadow-sm w-24"
                 onClick={handleAsk}
                 disabled={isLoading || !userQuestion.trim()}
                 aria-label={isLoading ? "Generating answer..." : "Ask your question"}
               >
-                {isLoading ? "..." : "Ask"}
+                {isLoading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto"></div>
+                ) : "Ask"}
               </button>
             </div>
-            <span id="questionHint" className="inputHint">
+            <span id="questionHint" className="text-xs text-text-muted mt-1 px-1">
               Press Enter or Ctrl+Enter to ask • 🎤 for voice • Ctrl+N for new session
             </span>
           </div>
         </div>
 
         {/* AI Response Section */}
-        <div className="responseSection" aria-live="polite" aria-atomic="true">
-          <div className="responseLabelRow">
-            <label>AI Response:</label>
+        <div className="flex flex-col gap-3 bg-surface p-6 rounded-[20px] border border-gray-200 dark:border-gray-800 shadow-sm hover:shadow-md transition-shadow duration-300 animate-fade-in-up [animation-delay:0.2s]" aria-live="polite" aria-atomic="true">
+          <div className="flex items-center justify-between gap-3">
+            <label className="font-semibold text-[13px] text-text-secondary tracking-tight">AI Response:</label>
             {aiResponse && (
-              <div className="responseActions">
+              <div className="flex gap-2">
                 <button 
-                  className={`responseActionBtn ${copied ? 'copied' : ''}`}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border rounded-lg cursor-pointer transition-all disabled:opacity-50 ${copied ? 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800 text-emerald-600' : 'bg-surface border-gray-200 dark:border-gray-800 text-text-secondary hover:bg-indigo-50 dark:hover:bg-indigo-900/10 hover:border-indigo-200 dark:hover:border-indigo-800 hover:text-indigo-600'}`}
                   onClick={handleCopy}
                   title="Copy response to clipboard"
                 >
                   {copied ? '✓ Copied' : '📋 Copy'}
                 </button>
                 <button 
-                  className="responseActionBtn"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-gray-200 dark:border-gray-800 rounded-lg bg-surface text-text-secondary cursor-pointer transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/10 hover:border-indigo-200 dark:hover:border-indigo-800 hover:text-indigo-600 disabled:opacity-50"
                   onClick={() => handleDownload("txt")}
                   title="Download as TXT"
                 >
                   📄 TXT
                 </button>
                 <button 
-                  className="responseActionBtn"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-gray-200 dark:border-gray-800 rounded-lg bg-surface text-text-secondary cursor-pointer transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/10 hover:border-indigo-200 dark:hover:border-indigo-800 hover:text-indigo-600 disabled:opacity-50"
                   onClick={() => handleDownload("md")}
                   title="Download as Markdown"
                 >
                   📝 MD
                 </button>
                 <button 
-                  className="responseActionBtn"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-gray-200 dark:border-gray-800 rounded-lg bg-surface text-text-secondary cursor-pointer transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/10 hover:border-indigo-200 dark:hover:border-indigo-800 hover:text-indigo-600 disabled:opacity-50"
                   onClick={handleRegenerate}
                   disabled={isLoading || !lastPrompt}
                   title="Regenerate response"
@@ -878,17 +913,17 @@ Remember: Output ONLY the JSON array, nothing else.`;
               </div>
             )}
           </div>
-          <div className="responseBox">
+          <div className="min-h-[300px] max-h-[520px] overflow-y-auto p-6 bg-surface rounded-[18px] border border-gray-200 dark:border-gray-800 shadow-inner transition-colors duration-300 scrollbar-thin scrollbar-thumb-indigo-200 dark:scrollbar-thumb-indigo-900 scrollbar-track-transparent">
             {isLoading ? (
-              <div className="loading" role="status">
-                <span className="spinner" aria-hidden="true"></span>
-                <p>Generating response...</p>
+              <div className="flex flex-col items-center justify-center h-[220px] gap-4.5 text-text-muted text-sm animate-fade-in" role="status">
+                <span className="w-9 h-9 border-[3px] border-indigo-500/15 border-t-indigo-500 rounded-full animate-spin" aria-hidden="true"></span>
+                <p className="animate-pulse">Generating response...</p>
               </div>
             ) : error ? (
-              <div className="error" role="alert">
+              <div className="flex flex-col items-center gap-3.5 text-red-500 p-6 bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-200 dark:border-red-800 text-sm text-center animate-fade-in" role="alert">
                 <p>⚠️ {error}</p>
                 <button 
-                  className="retryButton" 
+                  className="px-4 py-2 bg-surface border border-red-200 dark:border-red-800 rounded-lg text-red-500 text-xs font-medium cursor-pointer transition-all hover:bg-red-50 dark:hover:bg-red-900/20 hover:-translate-y-px hover:shadow-sm" 
                   onClick={() => setError(null)}
                   aria-label="Clear error message"
                 >
@@ -896,13 +931,14 @@ Remember: Output ONLY the JSON array, nothing else.`;
                 </button>
               </div>
             ) : aiResponse ? (
-              <div className="responseContent">
-                <Markdown remarkPlugins={[remarkGfm]}>{aiResponse}</Markdown>
+              <div className="text-[15px] leading-relaxed text-text-primary animate-fade-in-up">
+                <Markdown remarkPlugins={[remarkGfm]} components={MarkdownComponents}>{aiResponse}</Markdown>
               </div>
             ) : (
-              <div className="placeholder">
+              <div className="flex flex-col items-center justify-center h-[220px] text-center text-text-muted text-[15px] gap-3">
+                <div className="text-4xl mb-2 animate-float">✨</div>
                 <p>Your AI-generated response will appear here...</p>
-                <p className="hint">
+                <p className="text-[13px] opacity-70 max-w-xs leading-normal">
                   Enter your study notes (type or upload PDF) and ask a question to get started!
                 </p>
               </div>
@@ -910,9 +946,9 @@ Remember: Output ONLY the JSON array, nothing else.`;
           </div>
 
           {/* Action Buttons */}
-          <div className="actionButtons" role="group" aria-label="Study tools">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2" role="group" aria-label="Study tools">
             <button
-              className="secondaryButton"
+              className="py-3 px-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-text-primary rounded-xl text-[13px] font-semibold cursor-pointer transition-all hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400 hover:shadow-sm hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleSummarize}
               disabled={isLoading}
               aria-busy={isLoading}
@@ -921,7 +957,7 @@ Remember: Output ONLY the JSON array, nothing else.`;
               📝 Summarize{activeChatId ? " Chat" : ""}
             </button>
             <button
-              className="primaryButton"
+              className="py-3 px-4 bg-gradient-to-br from-indigo-500 to-violet-600 text-white border-0 rounded-xl text-[13px] font-semibold cursor-pointer transition-all shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleGenerateQuiz}
               disabled={isLoading}
               aria-busy={isLoading}
@@ -930,7 +966,7 @@ Remember: Output ONLY the JSON array, nothing else.`;
               📋 Generate Quiz
             </button>
             <button
-              className="flashcardButton"
+              className="py-3 px-4 bg-gradient-to-br from-teal-500 to-emerald-500 text-white border-0 rounded-xl text-[13px] font-semibold cursor-pointer transition-all shadow-md shadow-teal-500/20 hover:shadow-lg hover:shadow-teal-500/30 hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleGenerateFlashcards}
               disabled={isLoading || isGeneratingFlashcards}
               aria-busy={isGeneratingFlashcards}
@@ -939,7 +975,7 @@ Remember: Output ONLY the JSON array, nothing else.`;
               {isGeneratingFlashcards ? "⏳ Generating..." : "🗂️ Flashcards"}
             </button>
             <button
-              className="outlineButton"
+              className="py-3 px-4 bg-transparent border border-indigo-500 text-indigo-600 dark:text-indigo-400 rounded-xl text-[13px] font-semibold cursor-pointer transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/10 hover:shadow-sm hover:-translate-y-px disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleStartChat}
               disabled={isLoading || chatMutation.isPending}
               aria-busy={chatMutation.isPending}

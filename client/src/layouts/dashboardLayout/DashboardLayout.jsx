@@ -1,5 +1,4 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import "./dashboardLayout.css";
 import { useAuth } from "@clerk/clerk-react";
 import { useEffect, useState } from "react";
 import ChatList from "../../components/chatList/ChatList";
@@ -141,9 +140,9 @@ const DashboardLayout = () => {
 
   if (!isLoaded) {
     return (
-      <div className="dashboardLayout loading">
-        <div className="loadingContainer">
-          <div className="loadingSpinner"></div>
+      <div className="flex h-full items-center justify-center bg-surface">
+        <div className="flex flex-col items-center gap-4 text-text-muted text-sm animate-fade-in">
+          <div className="w-10 h-10 border-4 border-indigo-500/10 border-t-indigo-500 rounded-full animate-spin"></div>
           <span>Loading your dashboard...</span>
         </div>
       </div>
@@ -151,73 +150,81 @@ const DashboardLayout = () => {
   }
 
   return (
-    <div className="dashboardLayout">
-      <div className="menu"><ChatList/></div>
-      <div className="content">
+    <div className="flex h-full bg-surface gap-0 lg:gap-4">
+      <div className="hidden lg:block flex-1 min-w-[240px] max-w-[280px] animate-fade-in-left overflow-visible"><ChatList/></div>
+      <div className="flex-[4] bg-surface overflow-hidden animate-fade-in-right transition-all duration-300">
         <Outlet />
       </div>
 
       {/* Study Streak Banner */}
-      <div className="streakBanner">
-        <span className="streakEmoji">{getStreakEmoji(streak)}</span>
-        <div className="streakInfo">
-          <span className="streakCount">{streak} day{streak !== 1 ? 's' : ''}</span>
-          <span className="streakMessage">{getMotivationalMessage(streak)}</span>
+      <div className="fixed top-5 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-indigo-500/10 border border-indigo-500/20 px-5 py-2 rounded-full z-50 animate-slide-down backdrop-blur-sm">
+        <span className="text-xl">{getStreakEmoji(streak)}</span>
+        <div className="flex flex-col gap-0.5">
+          <span className="text-sm font-bold text-indigo-500">{streak} day{streak !== 1 ? 's' : ''}</span>
+          <span className="text-[11px] text-text-secondary">{getMotivationalMessage(streak)}</span>
         </div>
       </div>
 
       {/* Streak Celebration Modal */}
       {showStreakCelebration && (
-        <div className="streakCelebration" onClick={() => setShowStreakCelebration(false)}>
-          <div className="celebrationContent">
-            <div className="celebrationEmoji">🎉</div>
-            <h2>Streak Milestone!</h2>
-            <div className="streakBigNumber">{streak}</div>
-            <p>Day Study Streak! {getMotivationalMessage(streak)}</p>
-            <button onClick={() => setShowStreakCelebration(false)}>Keep Going! 💪</button>
+        <div 
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[2000] animate-fade-in" 
+          onClick={() => setShowStreakCelebration(false)}
+        >
+          <div className="bg-gradient-to-br from-surface to-white dark:to-slate-900 rounded-3xl p-12 text-center max-w-sm border-2 border-indigo-500/30 shadow-2xl animate-bounce-in" onClick={(e) => e.stopPropagation()}>
+            <div className="text-6xl mb-4 animate-bounce">🎉</div>
+            <h2 className="m-0 mb-3 text-2xl text-indigo-500 font-bold">Streak Milestone!</h2>
+            <div className="text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-indigo-500 via-violet-500 to-pink-500 leading-none my-2">{streak}</div>
+            <p className="text-base text-text-secondary mb-6">Day Study Streak! {getMotivationalMessage(streak)}</p>
+            <button 
+              className="px-8 py-3.5 text-base font-semibold bg-gradient-to-br from-indigo-500 to-violet-600 text-white border-0 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/40" 
+              onClick={() => setShowStreakCelebration(false)}
+            >
+              Keep Going! 💪
+            </button>
           </div>
         </div>
       )}
       
       {/* Floating Action Buttons */}
-      <div className="floatingButtons">
+      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-[900] md:hidden lg:flex">
         <button 
-          className="floatingBtn quizBtn"
+          className="w-[52px] h-[52px] rounded-full border-none text-2xl cursor-pointer shadow-lg transition-all duration-300 flex items-center justify-center bg-gradient-to-br from-cyan-500 to-cyan-700 text-white hover:scale-110 hover:-translate-y-1 hover:shadow-cyan-500/50 active:scale-95"
           onClick={() => setShowQuiz(true)}
           title="Quiz Generator (Ctrl+Q)"
         >
           📋
         </button>
         <button 
-          className="floatingBtn bookmarksBtn"
+          className="w-[52px] h-[52px] rounded-full border-none text-2xl cursor-pointer shadow-lg transition-all duration-300 flex items-center justify-center bg-gradient-to-br from-amber-400 to-amber-600 text-white hover:scale-110 hover:-translate-y-1 hover:shadow-amber-500/50 active:scale-95"
           onClick={() => setShowBookmarks(true)}
           title="Saved Bookmarks (Ctrl+K)"
         >
           ⭐
         </button>
         <button 
-          className="floatingBtn notesBtn"
+          className="w-[52px] h-[52px] rounded-full border-none text-2xl cursor-pointer shadow-lg transition-all duration-300 flex items-center justify-center bg-gradient-to-br from-pink-500 to-pink-700 text-white hover:scale-110 hover:-translate-y-1 hover:shadow-pink-500/50 active:scale-95"
           onClick={() => setShowNotes(true)}
           title="Study Notes (Ctrl+B)"
         >
           📝
         </button>
         <button 
-          className="floatingBtn goalsBtn"
+          className="w-[52px] h-[52px] rounded-full border-none text-2xl cursor-pointer shadow-lg transition-all duration-300 flex items-center justify-center bg-gradient-to-br from-amber-500 to-amber-700 text-white hover:scale-110 hover:-translate-y-1 hover:shadow-amber-600/50 active:scale-95"
           onClick={() => setShowGoals(true)}
           title="Study Goals (Ctrl+G)"
         >
           🎯
         </button>
         <button 
-          className="floatingBtn progressBtn"
+          className="w-[52px] h-[52px] rounded-full border-none text-2xl cursor-pointer shadow-lg transition-all duration-300 flex items-center justify-center bg-gradient-to-br from-emerald-500 to-emerald-700 text-white hover:scale-110 hover:-translate-y-1 hover:shadow-emerald-500/50 active:scale-95"
           onClick={() => setShowProgress(true)}
           title="View Progress (Ctrl+P)"
         >
           📊
         </button>
         <button 
-          className="floatingBtn timerBtn"
+          className="w-[52px] h-[52px] rounded-full border-none text-2xl cursor-pointer shadow-lg transition-all duration-300 flex items-center justify-center bg-gradient-to-br from-indigo-500 to-violet-600 text-white hover:scale-110 hover:-translate-y-1 hover:shadow-indigo-500/50 active:scale-95"
           onClick={() => setShowTimer(true)}
           title="Open Pomodoro Timer (Ctrl+T)"
         >

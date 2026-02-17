@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import "./newPrompt.css";
 import Upload from "../upload/Upload";
 import { IKImage } from "imagekitio-react";
 import Markdown from "react-markdown";
@@ -251,21 +250,22 @@ const NewPrompt = ({ data }) => {
   return (
     <>
       {/* Add new chat */}
-      {img.isLoading && <div className="loading">Loading image...</div>}
+      {img.isLoading && <div className="text-text-muted text-sm p-3 bg-indigo-50 dark:bg-indigo-900/10 rounded-xl text-center animate-fade-in">Loading image...</div>}
       {img.dbData?.filePath && (
         <IKImage
           urlEndpoint={import.meta.env.VITE_IMAGE_KIT_ENDPOINT}
           path={img.dbData?.filePath}
           width="380"
           transformation={[{ width: 380 }]}
+          className="rounded-2xl shadow-md mb-4"
         />
       )}
-      {question && <div className="message user">{question}</div>}
+      {question && <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-2xl mb-4 text-text-primary self-end animate-fade-in-up">{question}</div>}
       {error && (
-        <div className="message error">
+        <div className="flex items-center justify-between gap-3 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl mb-4 border border-red-100 dark:border-red-900/30 animate-fade-in">
           <span>⚠️ {error}</span>
           <button 
-            className="dismissError" 
+            className="w-6 h-6 rounded-full bg-red-100 dark:bg-red-900/40 text-red-600 cursor-pointer border-none flex items-center justify-center hover:bg-red-200" 
             onClick={() => setError(null)}
             aria-label="Dismiss error"
           >
@@ -274,33 +274,44 @@ const NewPrompt = ({ data }) => {
         </div>
       )}
       {answer && (
-        <div className="message">
+        <div className="p-4 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-2xl mb-4 text-text-primary leading-relaxed shadow-sm animate-fade-in-up">
           <Markdown remarkPlugins={[remarkGfm]}>{answer}</Markdown>
         </div>
       )}
       {isGenerating && !answer && (
-        <div className="message">
-          <span className="generating">Generating response...</span>
+        <div className="p-4 text-text-muted italic animate-pulse">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce"></span>
+            Generating response...
+          </span>
         </div>
       )}
-      <div className="endChat" ref={endRef}></div>
-      <form className="newForm" onSubmit={handleSubmit} ref={formRef} role="form" aria-label="Chat input form">
+      <div className="pb-32" ref={endRef}></div>
+      <form 
+        className="w-[95%] max-w-3xl absolute bottom-6 left-1/2 -translate-x-1/2 bg-surface border border-gray-200 dark:border-gray-700/50 rounded-[3rem] flex items-center gap-2 p-2 pl-6 shadow-2xl transition-all duration-300 animate-slide-up focus-within:shadow-xl focus-within:border-indigo-300 dark:focus-within:border-indigo-700/50 focus-within:ring-4 focus-within:ring-indigo-500/5 z-50 backdrop-blur-sm bg-white/90 dark:bg-slate-900/90" 
+        onSubmit={handleSubmit} 
+        ref={formRef} 
+        role="form" 
+        aria-label="Chat input form"
+      >
         <Upload setImg={setImg} />
         <input id="file" type="file" multiple={false} hidden aria-hidden="true" />
         <input 
           type="text" 
           name="text" 
+          className="flex-1 py-3.5 px-1 border-none outline-none bg-transparent text-text-primary text-[15px] placeholder:text-gray-400"
           placeholder="Ask anything... (Ctrl+Enter to send, Esc to clear)" 
           disabled={isGenerating}
           aria-label="Type your question"
           autoComplete="off"
         />
         <button 
+          className="rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 border-none p-3.5 flex items-center justify-center cursor-pointer transition-all duration-300 shadow-lg relative overflow-hidden hover:scale-105 hover:shadow-indigo-500/40 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed group mr-1"
           disabled={isGenerating} 
           aria-label={isGenerating ? "Generating response..." : "Send message"}
           type="submit"
         >
-          <img src="/arrow.png" alt="Send" />
+          <img src="/arrow.png" alt="Send" className="w-[18px] h-[18px] invert brightness-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
         </button>
       </form>
     </>
