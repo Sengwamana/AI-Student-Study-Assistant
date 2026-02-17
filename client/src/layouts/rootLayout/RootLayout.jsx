@@ -10,7 +10,7 @@ const RootLayout = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <div className="min-h-screen flex flex-col bg-background transition-colors duration-300 relative">
-          <main className="flex-1 overflow-hidden animate-fade-in-up">
+          <main className="flex-1 overflow-auto animate-fade-in-up">
             <Outlet />
           </main>
         </div>
