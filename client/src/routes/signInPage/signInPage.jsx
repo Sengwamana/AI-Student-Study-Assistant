@@ -1,15 +1,81 @@
 import { SignIn } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 const SignInPage = () => {
   return (
-    <div className="h-full flex items-center justify-center bg-surface relative overflow-hidden animate-fade-in transition-colors duration-300">
-      <div className="absolute -top-[30%] -right-[15%] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(99,102,241,0.1)_0%,transparent_70%)] rounded-full pointer-events-none animate-float-orb"></div>
-      <div className="absolute -bottom-[20%] -left-[10%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(139,92,246,0.08)_0%,transparent_70%)] rounded-full pointer-events-none animate-float-orb-reverse"></div>
-      <SignIn
-        path="/sign-in"
-        signUpUrl="/sign-up"
-        forceRedirectUrl="/dashboard"
-      />
+    <div className="min-h-screen flex flex-col lg:flex-row bg-white relative overflow-hidden">
+      
+      {/* Left Side - Branding */}
+      <div className="hidden lg:flex flex-1 relative bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800 items-center justify-center p-12 overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-[10%] left-[10%] w-64 h-64 rounded-full border-2 border-white/30 animate-float-orb"></div>
+          <div className="absolute bottom-[20%] right-[15%] w-48 h-48 rounded-full border-2 border-white/20 animate-float-orb-reverse"></div>
+          <div className="absolute top-[50%] left-[60%] w-32 h-32 rounded-full border border-white/20 animate-float-orb"></div>
+        </div>
+
+        <div className="relative z-10 max-w-md text-white">
+          <Link to="/" className="flex items-center gap-3 mb-12">
+            <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain brightness-200" />
+            <span className="text-2xl font-bold tracking-tight">Smart Learn Today</span>
+          </Link>
+          
+          <h2 className="text-4xl font-serif font-bold leading-tight mb-6">
+            Welcome back to your learning journey
+          </h2>
+          <p className="text-lg text-white/70 leading-relaxed mb-10">
+            Continue where you left off. Your AI tutor is ready to help you ace your studies.
+          </p>
+
+          {/* Stats */}
+          <div className="flex gap-8">
+            <div>
+              <p className="text-3xl font-bold">20M+</p>
+              <p className="text-sm text-white/50">Active students</p>
+            </div>
+            <div>
+              <p className="text-3xl font-bold">4.9★</p>
+              <p className="text-sm text-white/50">User rating</p>
+            </div>
+            <div>
+              <p className="text-3xl font-bold">60%</p>
+              <p className="text-sm text-white/50">Better grades</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Sign In Form */}
+      <div className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 relative">
+        {/* Mobile Logo */}
+        <div className="lg:hidden flex items-center gap-3 mb-8">
+          <img src="/logo.png" alt="Logo" className="w-8 h-8 object-contain" />
+          <span className="text-xl font-bold tracking-tight text-gray-900">Smart Learn Today</span>
+        </div>
+
+        {/* Background orbs for mobile */}
+        <div className="absolute -top-[20%] -right-[10%] w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(99,102,241,0.08)_0%,transparent_70%)] rounded-full pointer-events-none animate-float-orb lg:hidden"></div>
+        <div className="absolute -bottom-[15%] -left-[10%] w-[350px] h-[350px] bg-[radial-gradient(circle,rgba(139,92,246,0.06)_0%,transparent_70%)] rounded-full pointer-events-none animate-float-orb-reverse lg:hidden"></div>
+
+        <div className="w-full max-w-md">
+          <div className="mb-8 text-center lg:text-left">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Sign in</h1>
+            <p className="text-gray-500">Enter your credentials to access your account</p>
+          </div>
+          
+          <SignIn
+            path="/sign-in"
+            signUpUrl="/sign-up"
+            forceRedirectUrl="/dashboard"
+            appearance={{
+              elements: {
+                rootBox: "w-full",
+                card: "shadow-none p-0 w-full",
+              }
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 };
